@@ -1,0 +1,167 @@
+/* About Us Page Styling */
+
+header {
+    background-color: #003566;
+    color: #fff;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: #ffd700;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ffd700;
+    text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8);
+}
+
+.about-us {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    text-align: center;
+    background-image: url("http://localhost/JetVoyager/JetVoyager/images/image_4k.png");
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-repeat: no-repeat; /* Prevents tiling of the image */
+    background-position: center; /* Centers the image */
+    min-height: calc(100vh - 100px); /* Adjust to ensure footer fits below the section */
+    box-sizing: border-box; /* Includes padding in height calculations */
+    margin: 0; /* Removes default body margin */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers the content vertically */
+}
+
+.about-us h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #003566;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.about-us p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+    line-height: 1.8;
+}
+
+.team {
+    margin-top: 3rem;
+}
+
+.team h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #003566;
+    text-transform: uppercase;
+}
+
+.team-members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.team-member {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 200px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-member img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0.5rem;
+}
+
+.team-member h3 {
+    font-size: 1.2rem;
+    color: #003566;
+}
+
+.team-member p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.vision-mission {
+    margin-top: 3rem;
+    background-color: rgba(255, 255, 255, 0.8); /* White with 80% opacity */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px); /* Adds a frosted-glass effect */
+}
+
+
+.vision-mission h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #003566;
+    text-transform: uppercase;
+}
+
+.vision-mission p {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.8;
+}
+
+/* Footer for About Us */
+footer {
+    margin-top: 0; /* Remove extra spacing */
+    padding: 1rem;
+    background-color: #003566;
+    color: #fff;
+    text-align: center;
+    font-size: 0.9rem;
+    position: relative; /* Ensure it's part of the document flow */
+    width: 100%;
+}
