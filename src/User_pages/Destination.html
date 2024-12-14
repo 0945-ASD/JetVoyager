@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JetVoyager - Destinations</title>
+    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Destination.css">
+    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/HomePage.css">
+    <script src="http://localhost/JetVoyager/JetVoyager/src/User_pages/Destination.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">JetVoyager</div>
+            <ul class="nav-links">
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/HomePage.html">Home</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/aboutUs.html">About Us</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Destination.html">Destinations</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="button-container">
+                <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Login.php">Login</a></button>
+                <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registration.php">Register</a></button>
+                <button class="cta-button">Book Now</button>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <!-- Destination Search Section -->
+    <section id="destination-search" class="container">
+        <h1>Explore Destinations</h1>
+        <form id="search-form" class="search-form">
+            <input type="text" id="destination-search-input" placeholder="Search for city, state, or country" aria-label="Search for destinations" required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Popular Sightseeing Destinations Section -->
+    <section id="sightseeing" class="container">
+        <h1>Popular Sightseeing Destinations</h1>
+        <div class="destination-card">
+            <img src="http://localhost/JetVoyager/JetVoyager/images/france.jpg" alt="Sightseeing Image 1">
+            <h3>Paris, France</h3>
+            <p>Eiffel Tower, Louvre Museum, Notre-Dame Cathedral</p>
+            <a href="#">Explore More</a>
+        </div>
+        <div class="destination-card">
+            <img src="http://localhost/JetVoyager/JetVoyager/images/usa.jpg" alt="Sightseeing Image 2">
+            <h3>New York City, USA</h3>
+            <p>Statue of Liberty, Central Park, Times Square</p>
+            <a href="#">Explore More</a>
+        </div>
+        <div class="destination-card">
+            <img src="http://localhost/JetVoyager/JetVoyager/images/japan.jpg" alt="Sightseeing Image 3">
+            <h3>Tokyo, Japan</h3>
+            <p>Shibuya Crossing, Mount Fuji, Sensoji Temple</p>
+            <a href="#">Explore More</a>
+        </div>
+        <!-- Add more destination cards as needed -->
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 JetVoyager | All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>
