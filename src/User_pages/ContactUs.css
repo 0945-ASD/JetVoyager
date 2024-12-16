@@ -9,12 +9,9 @@ body {
   }
 
 main {
-    background-image: url("http://localhost/JetVoyager/JetVoyager/images/image_4k.png");
-    background-size: cover; /* Ensures the image covers the entire page */
-    background-repeat: no-repeat; /* Prevents tiling of the image */
-    background-position: center; /* Centers the image */
-    height: 100vh; /* Ensures the body covers the full viewport height */
-    margin: 0; /* Removes default body margin */   
+    background-color: #5BC4F6;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   h1 {
     justify-content: flex;
@@ -33,8 +30,8 @@ main {
     max-width: 1200px;
     padding: 20px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    
     
   }
   

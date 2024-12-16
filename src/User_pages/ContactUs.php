@@ -29,8 +29,8 @@
                 <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/ContactUs.php">Contact</a></li>
             </ul>
             <div class="button-container">
-                <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Login.php">Login</a></button>
-                <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registration.php">Register</a></button>
+                <button class="cta-button" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Login.php">Login</button>
+                <button class="cta-button" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registration.php">Register</button>
                 <button class="cta-button">Book Now</button>
             </div>
 
@@ -45,7 +45,7 @@
       <div class="container">
         <!-- Left Section: Contact Details -->
         <div class="contact-details">
-          <img src="../../Images/client.png" alt="Contact Us" width="300px" height="300px" />
+          <img src="http://localhost/JetVoyager/JetVoyager/images/1.png" alt="Contact Us" width="300px" height="300px" />
           <div class="contactUs_page_description">
             <i>We are here to assist you with your travel needs. Whether you have questions, require support, or want to share your feedback, our team at JetVoyager is eager to help. Feel free to contact us through the form below, or reach out via email or phone. We aim to respond promptly and ensure your travel experience is exceptional.</i>
           </div>
@@ -103,9 +103,9 @@
     </section>
   </main>
 
-  <!-- Display Messages -->
+  <!-- Display Messages
   <section class="message-display">
-    <h2>Messages Received</h2>
+    <h2>Messages Received</h2> -->
 <!-- 
     <?php
     // Database connection
