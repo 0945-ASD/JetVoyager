@@ -18,6 +18,18 @@ body {
     color: #333;
     background-color: #f9f9f9;
     scroll-behavior: smooth;
+
+    /* height: 100vh; /* Full viewport height */
+    /* background-image: url('your-image.jpg'); /* Replace with your image URL */
+    /* background-attachment: fixed; Keeps the image fixed */
+    /* background-size: cover; Ensures the image covers the entire section */
+    /* background-position: center; Centers the image */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* color: white; */
+    /* text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); */
+    /* text-align: center; */ 
 }
 
 /* Navigation Bar */

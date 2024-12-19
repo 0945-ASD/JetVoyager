@@ -24,8 +24,8 @@
             <div class="logo">JetVoyager</div>
             <ul class="nav-links">
                 <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html">Home</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
                 <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Destination.html">Destinations</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
                 <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.php">Contact</a></li>
             </ul>
             <div class="button-container">
@@ -73,7 +73,7 @@
             <button class="cta-button" type="submit">Submit</button>
           </form>
 
-          <!-- Delete Form -->
+          <!-- Delete Form
           <h2>Delete a Message</h2>
           <form id="delete-form" action="message_delete.php" method="POST">
             <label for="deleteID">Enter ID to Delete:</label>
@@ -81,8 +81,8 @@
             <button class="cta-button" type="submit">Delete</button>
           </form>
 
-          <!-- Edit Form -->
-          <h2>Edit a Message</h2>
+          Edit Form -->
+          <!-- <h2>Edit a Message</h2>
           <form id="edit-form" action="message_edit.php" method="POST">
             <label for="editID">Enter ID to Edit:</label>
             <input type="text" name="ID" placeholder="Enter the message ID" required>
@@ -96,7 +96,7 @@
             <label for="message">Enter New Message:</label>
             <textarea name="message" rows="5" required placeholder="Enter the new message"></textarea>
             <button class="cta-button" type="submit">Edit</button>
-          </form>
+          </form> -->
 
         </div>
       </div>
