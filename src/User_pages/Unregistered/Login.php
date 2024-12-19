@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Login.css" />
+  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.css" />
   <script>
     window.onload = function () {
       const urlParams = new URLSearchParams(window.location.search);
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       <hr />
 
-      <p>Don't have an account? <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registration.php">Sign up here</a></p>
+      <p>Don't have an account? <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.php">Sign up here</a></p>
     </div>
 
     <div class="login-image">

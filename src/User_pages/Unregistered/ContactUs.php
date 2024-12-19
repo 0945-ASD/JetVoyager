@@ -11,9 +11,9 @@
     rel="stylesheet">
   <title>Contact Us</title>
   <!-- Import the common HomePage CSS -->
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/HomePage.css">
+  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.css">
   <!-- Contact Us specific CSS -->
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/ContactUs.css">
+  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.css">
 </head>
 
 <body>
@@ -23,14 +23,14 @@
         <nav>
             <div class="logo">JetVoyager</div>
             <ul class="nav-links">
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/HomePage.html">Home</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/aboutUs.html">About Us</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Destination.html">Destinations</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/ContactUs.php">Contact</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html">Home</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Destination.html">Destinations</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.php">Contact</a></li>
             </ul>
             <div class="button-container">
-                <button class="cta-button" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Login.php">Login</button>
-                <button class="cta-button" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registration.php">Register</button>
+                <button class="cta-button" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php">Login</button>
+                <button class="cta-button" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.php">Register</button>
                 <button class="cta-button">Book Now</button>
             </div>
 

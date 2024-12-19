@@ -9,7 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registration.css" />
+  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.css" />
   <script src="./accessPages.js"></script>
   <title>JetVoyager Registration</title>
 </head>
@@ -23,13 +23,6 @@
 
       <div class="form-wrapper">
         <form action="./userRegister.php" method="POST">
-          <div class="input-group">
-            <label for="type">Register As</label>
-            <select name="types" id="types" onchange="toggleFields()" class="input-field">
-              <option value="student" default>Traveller</option>
-              <option value="examiner">Agent</option>
-            </select>
-          </div>
 
           <div class="input-group">
             <label for="real-name">Full Name</label>
@@ -68,7 +61,7 @@
       </div>
 
       <div class="login-redirect">
-        Already have an account? <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Login.php">Log In</a>
+        Already have an account? <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php">Log In</a>
       </div>
     </div>
 

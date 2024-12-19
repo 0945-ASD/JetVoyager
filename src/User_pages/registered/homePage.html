@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JetVoyager - Home</title>
+    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">JetVoyager</div>
+        <nav>
+            <ul>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.html">Home</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/explorePage.html">Explore</a></li>
+                <li><a href="#">My Trips</a></li>
+                <li><a href="#">Support</a></li>
+                <button class="profile-button">Profile</button>
+            </ul>
+        </nav>
+    </header>
+    <main>
+    <!-- Personal Greetings -->
+    <section class="greetings">
+        <h2>Welcome Back, <span id="username">Traveler</span>! 🌍</h2>
+        <p>Ready to embark on your next journey?</p>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Exclusive Travel Deals</h1>
+        <p>Explore breathtaking destinations with limited-time offers just for you.</p>
+        <button onclick="window.location.href='#deals'">Explore Deals</button>
+    </section>
+
+    <!-- Dynamic Travel Deals -->
+    <h2 class="section-title" id="deals">Top Travel Deals</h2>
+    <section class="dynamic-deals">
+        <div class="card">
+            <img src="https://source.unsplash.com/300x200/?paris" alt="Paris">
+            <h3>Paris, France</h3>
+            <p>Experience the magic of the Eiffel Tower and vibrant city life.</p>
+            <button>Book Now</button>
+        </div>
+        <div class="card">
+            <img src="https://source.unsplash.com/300x200/?bali" alt="Bali">
+            <h3>Bali, Indonesia</h3>
+            <p>Unwind on pristine beaches and explore tropical forests.</p>
+            <button>Book Now</button>
+        </div>
+        <div class="card">
+            <img src="https://source.unsplash.com/300x200/?tokyo" alt="Tokyo">
+            <h3>Tokyo, Japan</h3>
+            <p>Discover a perfect blend of tradition and modern life.</p>
+            <button>Book Now</button>
+        </div>
+    </section>
+
+    <!-- Upcoming Trips -->
+    <h2 class="section-title">Your Upcoming Trips</h2>
+    <section class="upcoming-trips">
+        <div class="card">
+            <img src="https://source.unsplash.com/300x200/?rome" alt="Rome">
+            <h3>Rome, Italy</h3>
+            <p>Travel Date: 2024-08-15</p>
+            <button>View Details</button>
+        </div>
+        <div class="card">
+            <img src="https://source.unsplash.com/300x200/?newyork" alt="New York">
+            <h3>New York, USA</h3>
+            <p>Travel Date: 2024-09-20</p>
+            <button>View Details</button>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 JetVoyager. All rights reserved.</p>
+    </footer>
+    </main>
+
+    <script>
+        // Simulate fetching user's name dynamically
+        const username = "John Doe"; // Replace this with dynamic user data
+        document.getElementById('username').innerText = username;
+    </script>
+</body>
+</html>
