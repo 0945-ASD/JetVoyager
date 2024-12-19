@@ -13,7 +13,7 @@ body {
 }
 main {
     padding: 5rem 2rem;
-    background-image: url("http://localhost/JetVoyager/JetVoyager/images/image_4k.png");
+    background-image: url("http://localhost/JetVoyager/JetVoyager/images/User%20background.jpg");
     background-size: cover; /* Ensures the image covers the entire page */
     background-repeat: no-repeat; /* Prevents tiling of the image */
     background-position: center; /* Centers the image */
@@ -64,7 +64,7 @@ nav ul li a {
     font-size: 1rem;
 }
 .hero {
-    background: url('https://source.unsplash.com/1600x600/?travel,adventure') no-repeat center center/cover;
+    /* background: url('https://source.unsplash.com/1600x600/?travel,adventure') no-repeat center center/cover; */
     color: #fff;
     text-align: center;
     padding: 4rem 1rem;
