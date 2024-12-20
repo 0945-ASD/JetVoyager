@@ -1,0 +1,174 @@
+/* General Reset */
+body, h1, h2, h3, p, ul, li, table, th, td, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-container {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    width: 60px;
+    min-height: 100vh;
+    padding: 20px 0;
+    position: fixed;
+    overflow: hidden;
+    transition: width 0.3s;
+}
+
+.sidebar:hover {
+    width: 250px;
+}
+
+.sidebar-header {
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar:hover .sidebar-header {
+    opacity: 1;
+}
+
+.menu {
+    list-style: none;
+    overflow: hidden;
+}
+
+.menu li {
+    margin: 15px 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar:hover .menu li {
+    opacity: 1;
+}
+
+.menu a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+    display: block;
+    padding: 10px;
+}
+
+.menu a:hover {
+    color: #3498db;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 60px;
+    padding: 20px;
+    width: calc(100% - 60px);
+    transition: margin-left 0.3s;
+}
+
+.sidebar:hover ~ .main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ecf0f1;
+    border-bottom: 1px solid #ccc;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.header-actions button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.header-actions button:hover {
+    background-color: #c0392b;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background-color: #3498db;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    flex: 1;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+thead {
+    background-color: #3498db;
+    color: white;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
