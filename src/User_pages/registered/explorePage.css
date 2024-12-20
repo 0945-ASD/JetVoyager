@@ -48,11 +48,11 @@
             background-repeat: repeat-x;
             background-position: center;
             width: 4800px;
-            -webkit-animation: scroll-grid 180s linear infinite;
+            /* -webkit-animation: scroll-grid 180s linear infinite;
             animation: scroll-grid 180s linear infinite;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 20px; */
         }
 
         .card {

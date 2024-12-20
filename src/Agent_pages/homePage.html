@@ -8,94 +8,111 @@
     <script src="scripts.js" defer></script>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="logo">JetVoyager</div>
-        <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#tour-management">Tour Management</a></li>
-            <li><a href="#booking-management">Booking Management</a></li>
-            <li><a href="#customer-interaction">Customer Interaction</a></li>
-            <li><a href="#reports">Reports</a></li>
-            <li><a href="#profile">Profile</a></li>
-        </ul>
-    </nav>
-    <main>
-    <!-- Dashboard Section -->
-    <section id="dashboard">
-        <h1>Agent Dashboard</h1>
-        <div id="overview">
-            <p>Upcoming Tours: <span id="upcoming-tours">0</span></p>
-            <p>Active Bookings: <span id="active-bookings">0</span></p>
-            <p>Customer Inquiries: <span id="customer-inquiries">0</span></p>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">JetVoyager</div>
+            <ul class="menu">
+                <div class="sidebar-item">
+                <li><a href="#dashboard">Dashboard</a></li></div>
+                <div class="sidebar-item">
+                <li><a href="#tour-management">Tour Management</a></li></div>
+                <div class="sidebar-item">
+                <li><a href="#booking-management">Booking Management</a></li></div>
+                <div class="sidebar-item">
+                <li><a href="#customer-interaction">Customer Interaction</a></li></div>
+                <div class="sidebar-item">
+                <li><a href="#reports">Reports</a></li></div>
+                <div class="sidebar-item"></div>
+                <li><a href="#profile">Profile</a></li></div>
+            </ul>
         </div>
-        <div id="notifications">
-            <h2>Notifications</h2>
-            <ul id="notification-list"></ul>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <h1>Agent Portal</h1>
+                <div class="header-actions">
+                    <button>Logout</button>
+                </div>
+            </header>
+            
+            <main>
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section">
+                    <h2>Agent Dashboard</h2>
+                    <div class="stats">
+                        <div class="stat">Upcoming Tours: <span id="upcoming-tours">0</span></div>
+                        <div class="stat">Active Bookings: <span id="active-bookings">0</span></div>
+                        <div class="stat">Customer Inquiries: <span id="customer-inquiries">0</span></div>
+                    </div>
+                    <div id="notifications">
+                        <h3>Notifications</h3>
+                        <ul id="notification-list"></ul>
+                    </div>
+                </section>
+
+                <!-- Tour Management Section -->
+                <section id="tour-management" class="section">
+                    <h2>Tour Management</h2>
+                    <button id="create-tour">Create New Tour</button>
+                    <div id="tour-list">
+                        <h3>Existing Tours</h3>
+                        <ul></ul>
+                    </div>
+                </section>
+
+                <!-- Booking Management Section -->
+                <section id="booking-management" class="section">
+                    <h2>Booking Management</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tour Name</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </section>
+
+                <!-- Customer Interaction Section -->
+                <section id="customer-interaction" class="section">
+                    <h2>Customer Interaction</h2>
+                    <div id="customer-messages">
+                        <ul></ul>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="section">
+                    <h2>Reports and Analytics</h2>
+                    <div id="report-options">
+                        <button>Generate Revenue Report</button>
+                        <button>View Popular Tours</button>
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section id="profile" class="section">
+                    <h2>Agent Profile</h2>
+                    <form id="profile-form">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name">
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password">
+
+                        <button type="submit">Update Profile</button>
+                    </form>
+                </section>
+            </main>
         </div>
-    </section>
-
-    <!-- Tour Management Section -->
-    <section id="tour-management">
-        <h1>Tour Management</h1>
-        <button id="create-tour">Create New Tour</button>
-        <div id="tour-list">
-            <h2>Existing Tours</h2>
-            <ul></ul>
-        </div>
-    </section>
-
-    <!-- Booking Management Section -->
-    <section id="booking-management">
-        <h1>Booking Management</h1>
-        <div id="booking-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tour Name</th>
-                        <th>Customer</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Customer Interaction Section -->
-    <section id="customer-interaction">
-        <h1>Customer Interaction</h1>
-        <div id="customer-messages">
-            <ul></ul>
-        </div>
-    </section>
-
-    <!-- Reports Section -->
-    <section id="reports">
-        <h1>Reports and Analytics</h1>
-        <div id="report-options">
-            <button>Generate Revenue Report</button>
-            <button>View Popular Tours</button>
-        </div>
-    </section>
-
-    <!-- Profile Section -->
-    <section id="profile">
-        <h1>Agent Profile</h1>
-        <form id="profile-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name">
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email">
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
-
-            <button type="submit">Update Profile</button>
-        </form>
-    </section>
-    </main>
+    </div>
 </body>
 </html>

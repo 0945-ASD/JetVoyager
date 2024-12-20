@@ -3,86 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JetVoyager - Home</title>
-    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.css">
+    <title>JetVoyager - Tour Management</title>
+    <style>
+        /* Base Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f3e, #2c2c7e);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,255,191,0.15), transparent 80%);
+            z-index: -1;
+            animation: backgroundMove 15s infinite linear;
+        }
+
+        @keyframes backgroundMove {
+            from {transform: translateY(0);}
+            to {transform: translateY(-200px);}
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar a {
+            color: #4bf5e4;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #3a86ff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-content h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #4bf5e4, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .popular-destinations {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .destination-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .destination-card h3 {
+            margin: 0;
+            padding: 1rem;
+            font-size: 1.2rem;
+            color: #4bf5e4;
+        }
+
+        .feature-section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .feature-section h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .booking-form label {
+            font-size: 1rem;
+        }
+
+        .booking-form select, .booking-form input, .booking-form button {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .booking-form button {
+            background: #4bf5e4;
+            color: #0f0f3e;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .booking-form button:hover {
+            background: #3a86ff;
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">JetVoyager</div>
-        <nav>
-            <ul>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.html">Home</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/explorePage.html">Explore</a></li>
-                <li><a href="#">My Trips</a></li>
-                <li><a href="#">Support</a></li>
-                <button class="profile-button">Profile</button>
-            </ul>
-        </nav>
-    </header>
-    <main>
-    <!-- Personal Greetings -->
-    <section class="greetings">
-        <h2>Welcome Back, <span id="username">Traveler</span>! 🌍</h2>
-        <p>Ready to embark on your next journey?</p>
-    </section>
+    <div class="navbar">
+        <a href="#" onclick="showFeature('book-tours')">Book Tours</a>
+        <a href="#" onclick="showFeature('manage-tours')">Manage Tours</a>
+        <a href="#" onclick="showFeature('tour-history')">Tour History</a>
+        <a href="#" onclick="showFeature('profile')">Profile</a>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Discover Exclusive Travel Deals</h1>
-        <p>Explore breathtaking destinations with limited-time offers just for you.</p>
-        <button onclick="window.location.href='#deals'">Explore Deals</button>
-    </section>
+    <div class="main-content">
+        <h1>Welcome to JetVoyager</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for tours...">
+        </div>
+        <div class="popular-destinations">
+            <div class="destination-card">
+                <img src="https://via.placeholder.com/300x200" alt="Destination 1">
+                <h3>Paris, France</h3>
+            </div>
+            <div class="destination-card">
+                <img src="https://via.placeholder.com/300x200" alt="Destination 2">
+                <h3>Kyoto, Japan</h3>
+            </div>
+            <div class="destination-card">
+                <img src="https://via.placeholder.com/300x200" alt="Destination 3">
+                <h3>New York, USA</h3>
+            </div>
+            <div class="destination-card">
+                <img src="https://via.placeholder.com/300x200" alt="Destination 4">
+                <h3>Rome, Italy</h3>
+            </div>
+        </div>
+    </div>
 
-    <!-- Dynamic Travel Deals -->
-    <h2 class="section-title" id="deals">Top Travel Deals</h2>
-    <section class="dynamic-deals">
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?paris" alt="Paris">
-            <h3>Paris, France</h3>
-            <p>Experience the magic of the Eiffel Tower and vibrant city life.</p>
-            <button>Book Now</button>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?bali" alt="Bali">
-            <h3>Bali, Indonesia</h3>
-            <p>Unwind on pristine beaches and explore tropical forests.</p>
-            <button>Book Now</button>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?tokyo" alt="Tokyo">
-            <h3>Tokyo, Japan</h3>
-            <p>Discover a perfect blend of tradition and modern life.</p>
-            <button>Book Now</button>
-        </div>
-    </section>
+    <div id="book-tours" class="feature-section">
+        <h2>Book a Tour</h2>
+        <form class="booking-form">
+            <label for="tour">Select Tour:</label>
+            <select id="tour">
+                <option value="paris">Paris, France</option>
+                <option value="kyoto">Kyoto, Japan</option>
+                <option value="new-york">New York, USA</option>
+                <option value="rome">Rome, Italy</option>
+            </select>
 
-    <!-- Upcoming Trips -->
-    <h2 class="section-title">Your Upcoming Trips</h2>
-    <section class="upcoming-trips">
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?rome" alt="Rome">
-            <h3>Rome, Italy</h3>
-            <p>Travel Date: 2024-08-15</p>
-            <button>View Details</button>
-        </div>
-        <div class="card">
-            <img src="https://source.unsplash.com/300x200/?newyork" alt="New York">
-            <h3>New York, USA</h3>
-            <p>Travel Date: 2024-09-20</p>
-            <button>View Details</button>
-        </div>
-    </section>
-    <!-- Footer -->
+            <label for="date">Select Date:</label>
+            <input type="date" id="date">
+
+            <button type="button" onclick="confirmBooking()">Look for accommodation</button>
+        </form>
+    </div>
+
+    <div id="manage-tours" class="feature-section">
+        <h2>Manage Your Tours</h2>
+        <p>View and edit your upcoming tour plans.</p>
+    </div>
+
+    <div id="tour-history" class="feature-section">
+        <h2>Tour History</h2>
+        <p>Relive your past adventures by viewing your tour history.</p>
+    </div>
+
+    <div id="profile" class="feature-section">
+        <h2>Your Profile</h2>
+        <p>Manage your personal details and preferences.</p>
+    </div>
+
     <footer>
-        <p>&copy; 2024 JetVoyager. All rights reserved.</p>
+        © 2024 JetVoyager. All Rights Reserved.
     </footer>
-    </main>
 
     <script>
-        // Simulate fetching user's name dynamically
-        const username = "John Doe"; // Replace this with dynamic user data
-        document.getElementById('username').innerText = username;
+        function showFeature(featureId) {
+            const sections = document.querySelectorAll('.feature-section');
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(featureId).style.display = 'flex';
+        }
+
+        function confirmBooking() {
+            const tour = document.getElementById('tour').value;
+            const date = document.getElementById('date').value;
+            if (tour && date) {
+                alert(`Your tour to ${tour.charAt(0).toUpperCase() + tour.slice(1)} on ${date} has been booked!`);
+            } else {
+                alert('Please select both a tour and a date to proceed.');
+            }
+        }
     </script>
 </body>
 </html>
