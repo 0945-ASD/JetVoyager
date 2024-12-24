@@ -10,7 +10,7 @@
 
 <body>
     <header>
-    <div class="logo" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</div>
+    <a class="logo" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
         <div class="navbar">
             <ul class="nav-links" >
                 <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/bookTours.php" onclick="showFeature('book-tours'); return false;">Book Tours</a></li>
@@ -22,7 +22,7 @@
     </header>
 
 
-    <div id="tour-history" class="feature-section" class="main-content">
+    <div id="tour-history" class="main-content">
         <h2>Tour History</h2>
         <p>Relive your past adventures by viewing your tour history.</p>
     </div>

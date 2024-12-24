@@ -10,7 +10,7 @@
 
 <body>
     <header>
-    <div class="logo" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</div>
+    <a class="logo" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
         <div class="navbar">
             <ul class="nav-links" >
                 <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/bookTours.php" onclick="showFeature('book-tours'); return false;">Book Tours</a></li>
@@ -20,8 +20,8 @@
             </ul>
         </div>
     </header>
-
-    <div id="profile" class="feature-section" class="main-content">
+<main>
+    <div id="profile"  class="main-content">
         <h2>Your Profile</h2>
         <div class="profile-details">
             <p><strong>Name:</strong> <span id="profile-name">John Doe</span></p>
@@ -47,7 +47,7 @@
             <button class="cancel-button" onclick="closeModal()">Cancel</button>
         </div>
     </div>
-
+</main>
 
     <footer>
         © 2024 JetVoyager. All Rights Reserved.
@@ -55,11 +55,7 @@
 
 
     <script>
-        function showFeature(featureId) {
-            const sections = document.querySelectorAll('.feature-section');
-            sections.forEach(section => section.style.display = 'none');
-            document.getElementById(featureId).style.display = 'flex';
-        }
+        
 
         function openModal() {
             document.getElementById('edit-modal').style.display = 'flex';

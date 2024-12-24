@@ -1,5 +1,8 @@
  /* Base Reset */
  body, html {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -28,7 +31,7 @@ body::before {
 }
 
 header {
-    background-color: #003566;
+    background-color: #007BFF;
     color: #fff;
     padding: 1rem 2rem;
     position: sticky;
@@ -43,6 +46,7 @@ header {
     letter-spacing: 2px;
     cursor: pointer;
     transition: color 0.3s;
+    color: #ffc107;
 }
 
 .logo:hover {
@@ -110,6 +114,9 @@ header {
     color: #ffc107; /* Matching text color */
 }
 
+main {
+    flex: 1; /* Pushes the footer to the bottom */
+}
 /* Main Content */
 .main-content {
     margin-top: 80px;
@@ -317,12 +324,12 @@ header {
 /* Footer */
 footer {
     text-align: center;
-    padding: 0.5rem;
+    padding: 10px 0;
     background-color: #003566;
     color: #fff;
-    /* margin-top: 2rem; */
+    margin-top: 2rem;
     font-size: 0.9rem;
-    /* border-top: 2px solid #ffd700; */
+    border-top: 2px solid #ffd700;
 }
 
 footer p ,.main-content{
