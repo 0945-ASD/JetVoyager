@@ -41,42 +41,45 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         .cards {
             height: 330px;
-            background-size: 1600px;
+            background-size: 160px;
             background-repeat: repeat-x;
             background-position: center;
-            width: 4800px;
-            /* -webkit-animation: scroll-grid 180s linear infinite;
-            animation: scroll-grid 180s linear infinite;
+            width: 10%; /* Adjusts to screen width */
+            max-width: 10%; /* Prevents overflow beyond screen width */
+            padding: 10px; /* Adds spacing around the container */
+            margin: 0 auto; /* Centers the container */
+            box-sizing: border-box; /* Ensures padding and borders are included in width */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; */
+            gap: 20px;
+            overflow-x: hidden; /* Prevents horizontal scrolling */
         }
-
+        
         .card {
             background: white;
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 15px;
             transition: transform 0.2s;
+            box-sizing: border-box; /* Ensures padding is included in the card's dimensions */
         }
-
+        
         .card:hover {
             transform: scale(1.05);
         }
-
+        
         .card h3 {
             margin: 0;
             color: #6200ea;
         }
-
+        
         .card p {
             margin: 10px 0;
             color: #555;
         }
-
+        
         .card button {
             padding: 8px 15px;
             background-color: #6200ea;
@@ -85,7 +88,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
+        
         footer {
             text-align: center;
             padding: 10px;
