@@ -1,3 +1,47 @@
+<?php
+// Database connection
+$conn = new mysqli('localhost', 'root', '', 'jetvoyager_db');
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Retrieve form data
+  $email = isset($_POST['email']) ? $_POST['email'] : '';
+  $name = isset($_POST['name']) ? $_POST['name'] : '';
+  $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+  $message = isset($_POST['message']) ? $_POST['message'] : '';
+
+  // Check if all fields are filled
+  if (empty($email) || empty($name) || empty($phone) || empty($message)) {
+    die("All fields are required.");
+  }
+
+  // Prepare and bind the SQL statement
+  $stmt = $conn->prepare("INSERT INTO contact_form (email, name, phone, message, status) VALUES (?, ?, ?, ?, ?)");
+  if ($stmt === false) {
+    die("Error preparing statement: " . $conn->error);
+  }
+
+  $status = 'pending'; // Default status for new messages
+  $stmt->bind_param("sssss", $email, $name, $phone, $message, $status);
+
+  // Execute the query and handle the result
+  if ($stmt->execute()) {
+    // echo "Message submitted successfully!";
+  } else {
+    echo "Error: " . $stmt->error;
+  }
+
+  // Close the connection
+  $stmt->close();
+  $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,13 +50,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <title>Contact Us</title>
-  <!-- Import the common HomePage CSS -->
   <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.css">
-  <!-- Contact Us specific CSS -->
   <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.css">
 </head>
 
@@ -20,26 +60,25 @@
 
   <!-- Navigation Bar -->
   <header>
-        <nav>
-            <div class="logo">JetVoyager</div>
-            <ul class="nav-links">
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html">Home</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Destination.html">Destinations</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.php">Contact</a></li>
-            </ul>
-            <div class="button-container">
-                <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php">Login</a></button>
-                <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.php">Register</a></button>
-            </div>
-
-        </nav>
-    </header>
+    <nav>
+      <div class="logo">JetVoyager</div>
+      <ul class="nav-links">
+        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html">Home</a></li>
+        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Destination.html">Destinations</a></li>
+        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
+        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.php">Contact</a></li>
+      </ul>
+      <div class="button-container">
+        <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php">Login</a></button>
+        <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.php">Register</a></button>
+      </div>
+    </nav>
+  </header>
 
   <!-- Contact Us Section -->
   <main>
     <section class="contact-us">
-    <h1>Contact Us</h1>
+      <h1>Contact Us</h1>
 
       <div class="container">
         <!-- Left Section: Contact Details -->
@@ -57,12 +96,12 @@
         <div class="contact-form">
           <h2>Send Us a Message</h2>
 
-          <form id="contact-form" action="contactUs_insert.php" method="POST">
-            <label for="ID">Contacting ID:</label>
-            <input type="text" name="ID" placeholder="Enter any number you prefer" required>
-            <br>
+          <form id="contact-form" action="" method="POST">
             <label for="name">Name:</label>
             <input type="text" name="name" placeholder="Your Full Name" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="yourname@example.com" required>
             <br>
             <label for="phone">Phone Number:</label>
             <input type="tel" name="phone" placeholder="+xx xxxxxxxxx" required>
@@ -72,91 +111,24 @@
             <button class="cta-button" type="submit">Submit</button>
           </form>
 
-          <!-- Delete Form
-          <h2>Delete a Message</h2>
-          <form id="delete-form" action="message_delete.php" method="POST">
-            <label for="deleteID">Enter ID to Delete:</label>
-            <input type="text" name="ID" placeholder="Enter the message ID">
-            <button class="cta-button" type="submit">Delete</button>
-          </form>
-
-          Edit Form -->
-          <!-- <h2>Edit a Message</h2>
-          <form id="edit-form" action="message_edit.php" method="POST">
-            <label for="editID">Enter ID to Edit:</label>
-            <input type="text" name="ID" placeholder="Enter the message ID" required>
-            <br>
-            <label for="name">Enter New Name:</label>
-            <input type="text" name="name" placeholder="Enter the new name" required>
-            <br>
-            <label for="phone">Enter New Phone Number:</label>
-            <input type="tel" name="phone" placeholder="Enter the new phone number" required>
-            <br>
-            <label for="message">Enter New Message:</label>
-            <textarea name="message" rows="5" required placeholder="Enter the new message"></textarea>
-            <button class="cta-button" type="submit">Edit</button>
-          </form> -->
-
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Display Messages
-  <section class="message-display">
-    <h2>Messages Received</h2> -->
-<!-- 
-    <?php
-    // Database connection
-    $conn = new mysqli('localhost', 'root', '', 'jet_voyager');
-
-    // Check connection
-    if ($conn->connect_error) {
-      die('Connection Error: ' . $conn->connect_error);
-    }
-
-    // SQL query to select messages
-    $sql = "SELECT m_ID, m_name, m_con_num, m_message FROM message";
-    $result = $conn->query($sql);
-
-    if ($result === false) {
-      echo "Error: " . $conn->error;
-    } else {
-      if ($result->num_rows > 0) {
-        echo "<table border='1'>";
-        echo "<tr><th>ID</th><th>Name</th><th>Contact Number</th><th>Message</th></tr>";
-
-        while ($row = $result->fetch_assoc()) {
-          echo "<tr>";
-          echo "<td>" . $row["m_ID"] . "</td>";
-          echo "<td>" . $row["m_name"] . "</td>";
-          echo "<td>" . $row["m_con_num"] . "</td>";
-          echo "<td>" . $row["m_message"] . "</td>";
-          echo "</tr>";
-        }
-
-        echo "</table>";
-      } else {
-        echo "No messages found.";
-      }
-    }
-    $conn->close();
-    ?>
-  </section> -->
-
   <script>
     // Contact Form Validation
     function validateContactForm() {
-      var id = document.querySelector('input[name="ID"]').value;
+      var email = document.querySelector('input[name="email"]').value;
       var name = document.querySelector('input[name="name"]').value;
       var phone = document.querySelector('input[name="phone"]').value;
 
-      var idRegex = /^[0-9]+$/;
+      var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       var nameRegex = /^[a-zA-Z\s]+$/;
       var phoneRegex = /^\+\d{2} \d{9}$/;
 
-      if (!idRegex.test(id)) {
-        alert("ID can only contain numbers.");
+      if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
         return false;
       }
       if (!nameRegex.test(name)) {

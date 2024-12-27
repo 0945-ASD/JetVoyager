@@ -143,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
 
   <script>
+    
     document.querySelector('#togglePassword').addEventListener('click', () => {
       const password = document.querySelector('#password');
       password.type = password.type === 'password' ? 'text' : 'password';
