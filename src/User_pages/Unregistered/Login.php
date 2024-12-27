@@ -6,10 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
   $passwd = $_POST['password'];
 
-  include("../../php/config.php");
+  include("http://localhost/JetVoyager/JetVoyager/src/config.php");
 
   if ($type === "customer") {
-    $query = $conn->prepare("SELECT * FROM customers WHERE email = ? AND password = ?");
+    $query = $conn->prepare("SELECT * FROM r_user WHERE EMAIL = ? AND Password = ?");
     $query->bind_param("ss", $email, $passwd);
 
     if ($query->execute()) {
@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['user-email'] = $email;
         $_SESSION['user-pswd'] = $passwd;
-        header('Location: ../CustomerPages/CustomerHome/customerHome.php');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php');
         exit();
       } else {
-        header('Location: login.php?error=invalid');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
         exit();
       }
     } else {
@@ -39,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['user-email'] = $email;
         $_SESSION['user-pswd'] = $passwd;
-        header('Location: ../TourGuidePages/TourGuideHome/tourGuideHome.php');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.html');
         exit();
       } else {
-        header('Location: login.php?error=invalid');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
         exit();
       }
     } else {
@@ -60,10 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['user-email'] = $email;
         $_SESSION['user-pswd'] = $passwd;
-        header('Location: ../AdminPages/AdminHome/adminHome.php');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.html');
         exit();
       } else {
-        header('Location: login.php?error=invalid');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
         exit();
       }
     } else {
