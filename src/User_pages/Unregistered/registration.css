@@ -1,171 +1,179 @@
 /* jetvoyager-register.css */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #4facfe, #00f2fe);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column; /* Allows stacking of header, content, and footer */
-    min-height: 100vh; /* Ensures the body takes the full viewport height */
-    color: #333;
-  }
-  
-  /* Main Container */
-  .main-container {
-    flex: 1; /* Pushes the footer to the bottom */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 80%;
-    max-width: 1200px;
-    margin: auto; /* Centers the container */
-  }
-  .register-logo {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #ffffff;
-  }
-  
-  .register-logo a {
-    text-decoration: none;
-    color: #fff;
-  }
-  
-  .register-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 1100px;
-    overflow: hidden;
-  }
-  
-  .register-form-section {
-    padding: 40px;
-    width: 60%;
-  }
-  
-  .register-heading {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .form-wrapper {
-    margin-top: 10px;
-  }
-  
-  .input-group {
-    margin-bottom: 20px;
-  }
-  
-  .input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    color: #555;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .input-field:focus {
-    border-color: #4facfe;
-    outline: none;
-  }
-  
-  .submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: #4facfe;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  .submit-btn:hover {
-    background: #00c3ff;
-  }
-  
-  .terms {
-    margin-top: 10px;
-    font-size: 0.8rem;
-    color: #555;
-  }
-  
-  .terms a {
-    color: #4facfe;
-    text-decoration: none;
-  }
-  
-  .terms a:hover {
-    text-decoration: underline;
-  }
-  
-  .login-redirect {
-    margin-top: 20px;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
-  .login-redirect a {
-    color: #4facfe;
-    text-decoration: none;
-  }
-  
-  .login-redirect a:hover {
-    text-decoration: underline;
-  }
-  
-  .register-image-section {
-    width: 40%;
-    background: #4facfe;
-    color: #fff;
-    text-align: center;
-    padding: 40px 20px;
-  }
-  
-  .register-image-section img {
-    width: 80%;
-    max-width: 300px;
-    margin-bottom: 20px;
-  }
-  
-  .register-image-section p {
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.5;
-  }
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  /* Allows stacking of header, content, and footer */
+  min-height: 100vh;
+  /* Ensures the body takes the full viewport height */
+  color: #333;
+}
+
+/* Main Container */
+.main-container {
+  flex: 1;
+  /* Pushes the footer to the bottom */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 80%;
+  max-width: 1200px;
+  margin: auto;
+  /* Centers the container */
+}
+
+.register-logo {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.register-logo a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.register-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 1100px;
+  overflow: hidden;
+}
+
+.register-form-section {
+  padding: 40px;
+  width: 60%;
+}
+
+.register-heading {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-wrapper {
+  margin-top: 10px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  border-color: #4facfe;
+  outline: none;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4facfe;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #00c3ff;
+}
+
+.terms {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.terms a {
+  color: #4facfe;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
+.login-redirect {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.login-redirect a {
+  color: #4facfe;
+  text-decoration: none;
+}
+
+.login-redirect a:hover {
+  text-decoration: underline;
+}
+
+.register-image-section {
+  width: 40%;
+  background: #4facfe;
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.register-image-section img {
+  width: 80%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.register-image-section p {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 /* Footer */
 footer {
-    text-align: center;
-    background-color: #003566;
-    color: #fff;
-    font-size: 1rem;
-    /* padding: 0.5rem; Adjust padding as needed */
-    width: 100%; /* Ensures the footer spans the entire width */
-    position: relative; /* Keeps it in the normal flow of the document */
-    bottom: 0; /* Ensures it's at the bottom of the page */
+  text-align: center;
+  background-color: #003566;
+  color: #fff;
+  font-size: 1rem;
+  /* padding: 0.5rem; Adjust padding as needed */
+  width: 100%;
+  /* Ensures the footer spans the entire width */
+  position: relative;
+  /* Keeps it in the normal flow of the document */
+  bottom: 0;
+  /* Ensures it's at the bottom of the page */
 }
- 

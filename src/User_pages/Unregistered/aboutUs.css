@@ -53,16 +53,23 @@ nav {
     background-color: #f9f9f9;
     text-align: center;
     background-image: url("http://localhost/JetVoyager/JetVoyager/images/image_4k.png");
-    background-size: cover; /* Ensures the image covers the entire section */
-    background-repeat: no-repeat; /* Prevents tiling of the image */
-    background-position: center; /* Centers the image */
-    min-height: calc(100vh - 100px); /* Adjust to ensure footer fits below the section */
-    box-sizing: border-box; /* Includes padding in height calculations */
-    margin: 0; /* Removes default body margin */
+    background-size: cover;
+    /* Ensures the image covers the entire section */
+    background-repeat: no-repeat;
+    /* Prevents tiling of the image */
+    background-position: center;
+    /* Centers the image */
+    min-height: calc(100vh - 100px);
+    /* Adjust to ensure footer fits below the section */
+    box-sizing: border-box;
+    /* Includes padding in height calculations */
+    margin: 0;
+    /* Removes default body margin */
     color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centers the content vertically */
+    justify-content: center;
+    /* Centers the content vertically */
 }
 
 .about-us h1 {
@@ -133,11 +140,13 @@ nav {
 
 .vision-mission {
     margin-top: 3rem;
-    background-color: rgba(255, 255, 255, 0.8); /* White with 80% opacity */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* White with 80% opacity */
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px); /* Adds a frosted-glass effect */
+    backdrop-filter: blur(10px);
+    /* Adds a frosted-glass effect */
 }
 
 
@@ -156,12 +165,14 @@ nav {
 
 /* Footer for About Us */
 footer {
-    margin-top: 0; /* Remove extra spacing */
+    margin-top: 0;
+    /* Remove extra spacing */
     padding: 1rem;
     background-color: #003566;
     color: #fff;
     text-align: center;
     font-size: 0.9rem;
-    position: relative; /* Ensure it's part of the document flow */
+    position: relative;
+    /* Ensure it's part of the document flow */
     width: 100%;
 }

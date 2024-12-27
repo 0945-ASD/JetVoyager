@@ -8,11 +8,16 @@
 /* Body Styling */
 body {
     background-image: url("http://localhost/JetVoyager/JetVoyager/images/image_4k.png");
-    background-size: cover; /* Ensures the image covers the entire page */
-    background-repeat: no-repeat; /* Prevents tiling of the image */
-    background-position: center; /* Centers the image */
-    height: 100vh; /* Ensures the body covers the full viewport height */
-    margin: 0; /* Removes default body margin */
+    background-size: cover;
+    /* Ensures the image covers the entire page */
+    background-repeat: no-repeat;
+    /* Prevents tiling of the image */
+    background-position: center;
+    /* Centers the image */
+    height: 100vh;
+    /* Ensures the body covers the full viewport height */
+    margin: 0;
+    /* Removes default body margin */
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     color: #333;
@@ -29,7 +34,7 @@ body {
     /* align-items: center; */
     /* color: white; */
     /* text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); */
-    /* text-align: center; */ 
+    /* text-align: center; */
 }
 
 /* Navigation Bar */
@@ -97,7 +102,8 @@ h1 {
     justify-content: center;
     margin: 2rem auto;
     padding: 1rem;
-    background-color: #003566; /* Dark Blue */
+    background-color: #003566;
+    /* Dark Blue */
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 80%;
@@ -108,7 +114,8 @@ h1 {
     flex: 1;
     padding: 0.75rem;
     font-size: 1rem;
-    border: 2px solid #ffd700; /* Yellow Border */
+    border: 2px solid #ffd700;
+    /* Yellow Border */
     border-radius: 5px 0 0 5px;
     outline: none;
     color: #333;
@@ -119,8 +126,10 @@ h1 {
 }
 
 .search-form button {
-    background-color: #ffd700; /* Yellow */
-    color: #003566; /* Dark Blue */
+    background-color: #ffd700;
+    /* Yellow */
+    color: #003566;
+    /* Dark Blue */
     border: none;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
@@ -132,8 +141,10 @@ h1 {
 }
 
 .search-form button:hover {
-    background-color: #ffa500; /* Orange-Yellow */
-    transform: scale(1.05); /* Subtle button animation */
+    background-color: #ffa500;
+    /* Orange-Yellow */
+    transform: scale(1.05);
+    /* Subtle button animation */
 }
 
 /* Destination Page */
@@ -232,6 +243,7 @@ footer p {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }

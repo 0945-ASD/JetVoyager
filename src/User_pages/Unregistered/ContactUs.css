@@ -1,205 +1,219 @@
 /* Global Styles */
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    
-  }
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+
+}
 
 main {
-    background-color: #5BC4F6;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  h1 {
-    justify-content: flex;
-    text-align: center;
-    font-size: 50px;
-    /* font-size: 3rem; */
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    animation: fadeInDown 1s ease-in-out;
+  background-color: #5BC4F6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-  /* Container */
+
+h1 {
+  justify-content: flex;
+  text-align: center;
+  font-size: 50px;
+  /* font-size: 3rem; */
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  animation: fadeInDown 1s ease-in-out;
+}
+
+/* Container */
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 20px;
+  background: white;
+
+
+
+}
+
+/* Contact Details Section */
+.contact-details {
+  width: 45%;
+  text-align: left;
+}
+
+.contact-details img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.contact-details p {
+  margin: 15px 0;
+  font-size: 1rem;
+}
+
+.contact-details .contactUs_page_description {
+  margin: 20px 0;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Contact Form Section */
+.contact-form {
+  width: 45%;
+}
+
+.contact-form h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.contact-form form {
+  margin-bottom: 30px;
+}
+
+.contact-form form label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 5px;
+}
+
+.contact-form form input,
+.contact-form form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.contact-form form button {
+  background-color: #2d89ef;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contact-form form button:hover {
+  background-color: #1c6ed2;
+}
+
+/* Messages Table */
+.message-display {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-display h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.message-display table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.message-display table th,
+.message-display table td {
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.message-display table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Contact Form Unique Styles */
+.contact-form {
+  background-color: #eaf3fc;
+  /* Slightly different background to give it a unique look */
+  border-radius: 10px;
+  /* More rounded corners */
+}
+
+.contact-form h2 {
+  font-size: 1.75rem;
+  /* Slightly bigger title for the form */
+  color: #2d89ef;
+  /* Matching the primary color of the site */
+}
+
+/* Contact Details Section - Unique styles */
+.contact-details img {
+  width: 100%;
+  /* Ensures it looks nice and fits in the space */
+  max-width: 300px;
+  /* Restricts maximum size */
+}
+
+.contact-details p {
+  color: #555;
+  /* A softer color for the contact details */
+}
+
+.contact-details .contactUs_page_description {
+  font-size: 1rem;
+  color: #777;
+  /* Lighter gray for the description text */
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* Messages Table */
+.message-display table th,
+.message-display table td {
+  padding: 15px;
+  /* More padding for a better layout */
+}
+
+.message-display table th {
+  background-color: #fafafa;
+  /* A lighter shade for headers */
+  font-weight: bold;
+}
+
+.message-display table td {
+  font-size: 0.95rem;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
   .container {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px auto;
-    max-width: 1200px;
-    padding: 20px;
-    background: white;
-    
-    
-    
+    flex-direction: column;
+    align-items: center;
   }
-  
-  /* Contact Details Section */
-  .contact-details {
-    width: 45%;
-    text-align: left;
-  }
-  
-  .contact-details img {
-    display: block;
-    margin: 0 auto;
-    border-radius: 8px;
-  }
-  
-  .contact-details p {
-    margin: 15px 0;
-    font-size: 1rem;
-  }
-  
-  .contact-details .contactUs_page_description {
-    margin: 20px 0;
-    font-style: italic;
-    font-size: 0.9rem;
-  }
-  
-  /* Contact Form Section */
+
+  .contact-details,
   .contact-form {
-    width: 45%;
-  }
-  
-  .contact-form h2 {
+    width: 90%;
     margin-bottom: 20px;
-    font-size: 1.5rem;
   }
-  
-  .contact-form form {
-    margin-bottom: 30px;
-  }
-  
-  .contact-form form label {
-    display: block;
-    font-weight: 600;
-    margin: 10px 0 5px;
-  }
-  
-  .contact-form form input,
-  .contact-form form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .contact-form form button {
-    background-color: #2d89ef;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .contact-form form button:hover {
-    background-color: #1c6ed2;
-  }
-  
-  /* Messages Table */
-  .message-display {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .message-display h2 {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-  }
-  
-  .message-display table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .message-display table th,
-  .message-display table td {
-    text-align: left;
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-  
-  .message-display table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
-  /* Contact Form Unique Styles */
-  .contact-form {
-    background-color: #eaf3fc; /* Slightly different background to give it a unique look */
-    border-radius: 10px; /* More rounded corners */
-  }
-  
-  .contact-form h2 {
-    font-size: 1.75rem; /* Slightly bigger title for the form */
-    color: #2d89ef; /* Matching the primary color of the site */
-  }
-  
-  /* Contact Details Section - Unique styles */
+
   .contact-details img {
-    width: 100%; /* Ensures it looks nice and fits in the space */
-    max-width: 300px; /* Restricts maximum size */
+    width: 70%;
   }
-  
-  .contact-details p {
-    color: #555; /* A softer color for the contact details */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .contact-details .contactUs_page_description {
-    font-size: 1rem;
-    color: #777; /* Lighter gray for the description text */
-    font-style: italic;
-    margin-bottom: 20px;
+
+  to {
+    opacity: 1;
   }
-  
-  /* Messages Table */
-  .message-display table th,
-  .message-display table td {
-    padding: 15px; /* More padding for a better layout */
-  }
-  
-  .message-display table th {
-    background-color: #fafafa; /* A lighter shade for headers */
-    font-weight: bold;
-  }
-  
-  .message-display table td {
-    font-size: 0.95rem;
-  }
-  
-  /* Media Queries */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .contact-details,
-    .contact-form {
-      width: 90%;
-      margin-bottom: 20px;
-    }
-  
-    .contact-details img {
-      width: 70%;
-    }
-  }
-  @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
 }

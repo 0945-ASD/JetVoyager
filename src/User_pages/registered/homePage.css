@@ -2,7 +2,7 @@
  body, html {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -31,7 +31,7 @@ body::before {
 }
 
 header {
-    background-color: #007BFF;
+    /* background-color: linear-gradient(90deg, #13528d, #3a86ff); */
     color: #fff;
     padding: 1rem 2rem;
     position: sticky;
@@ -78,7 +78,7 @@ header {
 }
 /* Navbar container */
 .navbar {
-    background-color: #2b2b2b; /* Softer dark background */
+    background-color: #0d4476; /* Softer dark background */
     padding: 1rem;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow */
 }

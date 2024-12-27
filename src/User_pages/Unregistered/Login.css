@@ -1,4 +1,3 @@
-
 /* General Styling */
 body {
   font-family: 'Poppins', sans-serif;
@@ -6,14 +5,17 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column; /* Allows stacking of header, content, and footer */
-  min-height: 100vh; /* Ensures the body takes the full viewport height */
+  flex-direction: column;
+  /* Allows stacking of header, content, and footer */
+  min-height: 100vh;
+  /* Ensures the body takes the full viewport height */
   color: #333;
 }
 
 /* Main Container */
 .main-container {
-  flex: 1; /* Pushes the footer to the bottom */
+  flex: 1;
+  /* Pushes the footer to the bottom */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,160 +25,164 @@ body {
   overflow: hidden;
   width: 80%;
   max-width: 1200px;
-  margin: auto; /* Centers the container */
+  margin: auto;
+  /* Centers the container */
 }
 
 
-  
-  /* Logo */
-  .logo {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #030202;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .logo a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  /* Main Container */
+
+/* Logo */
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #030202;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 80%;
+  max-width: 1200px;
+}
+
+/* Login Form Section */
+.login-methods {
+  flex: 1;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.login-methods h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.input-container {
+  margin-bottom: 15px;
+}
+
+.input-container label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.input-container input:focus,
+.input-container select:focus {
+  outline: none;
+  border-color: #4facfe;
+  box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+}
+
+.login-btn {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: scale(1.02);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+p a {
+  color: #4facfe;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+/* Image Section */
+.login-image {
+  flex: 1;
+  background: url('http://localhost/JetVoyager/JetVoyager/images/1.png') no-repeat center center;
+  background-size: cover;
+  height: 100%;
+}
+
+/* Toggle Password Icon */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+/* Error Message */
+#error-msg {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .main-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 80%;
-    max-width: 1200px;
+    flex-direction: column;
+    width: 90%;
   }
-  
-  /* Login Form Section */
-  .login-methods {
-    flex: 1;
-    padding: 40px;
-    box-sizing: border-box;
-  }
-  
-  .login-methods h1 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 2rem;
-  }
-  
-  .input-container {
-    margin-bottom: 15px;
-  }
-  
-  .input-container label {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    color: #666;
-  }
-  
-  .input-container input, .input-container select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .input-container input:focus, .input-container select:focus {
-    outline: none;
-    border-color: #4facfe;
-    box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
-  }
-  
-  .login-btn {
-    background: linear-gradient(to right, #4facfe, #00f2fe);
-    border: none;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: 0.3s;
-  }
-  
-  .login-btn:hover {
-    background: linear-gradient(to right, #00f2fe, #4facfe);
-    transform: scale(1.02);
-  }
-  
-  hr {
-    border: 0;
-    border-top: 1px solid #ddd;
-    margin: 20px 0;
-  }
-  
-  p {
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
-  p a {
-    color: #4facfe;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  p a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Image Section */
+
   .login-image {
-    flex: 1;
-    background: url('http://localhost/JetVoyager/JetVoyager/images/1.png') no-repeat center center;
-    background-size: cover;
-    height: 100%;
+    height: 200px;
   }
-  
-  /* Toggle Password Icon */
-  .eye-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
+
+  .login-methods {
+    padding: 20px;
   }
-  
-  .password-wrapper {
-    position: relative;
-  }
-  
-  /* Error Message */
-  #error-msg {
-    color: red;
-    font-size: 0.8rem;
-    margin-top: 5px;
-    display: none;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .main-container {
-      flex-direction: column;
-      width: 90%;
-    }
-  
-    .login-image {
-      height: 200px;
-    }
-  
-    .login-methods {
-      padding: 20px;
-    }
-  }
+}
+
 /* Footer */
 footer {
   text-align: center;

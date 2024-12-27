@@ -36,12 +36,4 @@
     </footer>
 
 </body>
-<script>
-    function showFeature(featureId) {
-    const sections = document.querySelectorAll('.feature-section');
-    sections.forEach(section => section.style.display = 'none');
-    document.getElementById(featureId).style.display = 'block'; // Or 'flex' if needed
-}
-
-</script>
 </html>
