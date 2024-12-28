@@ -1,12 +1,42 @@
+<?php
+$host = "localhost"; // Database host
+$user = "root";      // Database username
+$pass = "";          // Database password
+$db = "jetvoyager_db";  // Your database name
+
+$conn = new mysqli($host, $user, $pass, $db);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT id, name, email, message, status, created_at, phone FROM contact_form";
+$result = $conn->query($sql);
+
+$messages = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $messages[] = $row;
+    }
+}
+
+echo json_encode($messages);
+$conn->close();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetVoyager Admin Panel</title>
-    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.css?v=1.0">
+    <script src="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.js?v=1.0" defer></script>
 </head>
+
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
@@ -16,11 +46,11 @@
             </div>
             <ul class="menu">
                 <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#users">Manage Users</a></li>
-                <li><a href="#tours">Manage Tours</a></li>
-                <li><a href="#bookings">Manage Bookings</a></li>
+                <!-- <li><a href="#users">Manage Users</a></li> -->
+                <li><a href="#tours">Manage Destinations</a></li>
+                <li><a href="#bookings">Manage Recent Bookings</a></li>
                 <li><a href="#notifications">Notifications</a></li>
-                <li><a href="#reports">Reports</a></li>
+                <!-- <li><a href="#reports">Reports</a></li> -->
                 <li><a href="#settings">Settings</a></li>
                 <li><a href="#support">Customer Support</a></li>
             </ul>
@@ -45,7 +75,7 @@
                 </div>
             </section>
 
-            <section id="users" class="section">
+            <!-- <section id="users" class="section">
                 <h2>Manage Users</h2>
                 <table>
                     <thead>
@@ -65,7 +95,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </section>
+            </section> -->
 
             <section id="tours" class="section">
                 <h2>Manage Tours</h2>
@@ -98,15 +128,15 @@
                 </table>
             </section>
 
-            <section id="notifications" class="section">
+            <!-- <section id="notifications" class="section">
                 <h2>Notifications</h2>
                 <button>Send New Notification</button>
-            </section>
+            </section> -->
 
-            <section id="reports" class="section">
+            <!-- <section id="reports" class="section">
                 <h2>Reports</h2>
                 <button>Generate Report</button>
-            </section>
+            </section> -->
 
             <section id="settings" class="section">
                 <h2>Settings</h2>
@@ -115,9 +145,25 @@
 
             <section id="support" class="section">
                 <h2>Customer Support</h2>
-                <div>View and respond to messages here.</div>
+                <table id="support-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic content will be injected here -->
+                    </tbody>
+                </table>
             </section>
+
         </main>
     </div>
 </body>
+
+
 </html>
