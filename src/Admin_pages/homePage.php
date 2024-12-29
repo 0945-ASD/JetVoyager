@@ -1,30 +1,28 @@
 <?php
-$host = "localhost"; // Database host
-$user = "root";      // Database username
-$pass = "";          // Database password
-$db = "jetvoyager_db";  // Your database name
+session_start();
 
-$conn = new mysqli($host, $user, $pass, $db);
+// Database connection
+$conn = new mysqli('localhost', 'root', '', 'jetvoyager_db');
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// SQL query to fetch data
 $sql = "SELECT id, name, email, message, status, created_at, phone FROM contact_form";
 $result = $conn->query($sql);
 
 $messages = [];
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $messages[] = $row;
     }
 }
 
-echo json_encode($messages);
 $conn->close();
+session_destroy();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +32,6 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetVoyager Admin Panel</title>
     <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.css?v=1.0">
-    <script src="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.js?v=1.0" defer></script>
 </head>
 
 <body>
@@ -151,12 +148,30 @@ $conn->close();
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Phone</th>
                             <th>Message</th>
                             <th>Status</th>
+                            <th>Created_at</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Dynamic content will be injected here -->
+                    <?php
+                        if (!empty($messages)) {
+                            foreach ($messages as $message) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($message['id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($message['name']) . "</td>";
+                                echo "<td>" . htmlspecialchars($message['email']) . "</td>";
+                                echo "<td>" . htmlspecialchars($message['phone']) . "</td>";
+                                echo "<td>" . htmlspecialchars($message['message']) . "</td>";
+                                echo "<td>" . htmlspecialchars($message['status']) . "</td>";
+                                echo "<td>" . htmlspecialchars($message['created_at']) . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='7'>No Messages found</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
             </section>
