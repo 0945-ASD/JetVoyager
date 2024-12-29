@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $sql = "INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES ('$name', '$nic', '$email', '$hashedPassword')";
   if ($conn->query($sql) === TRUE) {
     // Redirect to home page upon success
-    header("Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php");
+    header("Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/Login.php");
     exit;
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;

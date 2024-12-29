@@ -20,6 +20,38 @@ if ($result->num_rows > 0) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    // Validate JSON payload
+    if (isset($data['id'], $data['status'])) {
+        $id = $data['id'];
+        $status = $data['status'];
+
+        // Validate the status
+        if (!in_array($status, ['pending', 'reviewed', 'resolved'])) {
+            echo json_encode(['success' => false, 'message' => 'Invalid status']);
+            exit;
+        }
+
+        // Update the status in the database
+        $sql = "UPDATE contact_form SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $status, $id);
+
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Status updated successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to update status']);
+        }
+
+        $stmt->close();
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Missing required parameters']);
+    }
+    $conn->close();
+    exit;
+}
 $conn->close();
 session_destroy();
 ?>
@@ -32,6 +64,7 @@ session_destroy();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetVoyager Admin Panel</title>
     <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.css?v=1.0">
+    <script src="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.js"></script>
 </head>
 
 <body>
@@ -155,7 +188,7 @@ session_destroy();
                         </tr>
                     </thead>
                     <tbody>
-                    <?php
+                        <?php
                         if (!empty($messages)) {
                             foreach ($messages as $message) {
                                 echo "<tr>";
@@ -164,7 +197,16 @@ session_destroy();
                                 echo "<td>" . htmlspecialchars($message['email']) . "</td>";
                                 echo "<td>" . htmlspecialchars($message['phone']) . "</td>";
                                 echo "<td>" . htmlspecialchars($message['message']) . "</td>";
-                                echo "<td>" . htmlspecialchars($message['status']) . "</td>";
+                                echo "<td>";
+                                echo "<select class='status-dropdown' data-id='" . htmlspecialchars($message['status']) . "'>";
+                                $options = ['pending', 'reviewed', 'resolved'];
+                                foreach ($options as $option) {
+                                    $selected = ($message['status'] === $option) ? "selected" : "";
+                                    echo "<option value='$option' $selected>" . ucfirst($option) . "</option>";
+                                }
+                                echo "</select>";
+                                echo "</td>";
+
                                 echo "<td>" . htmlspecialchars($message['created_at']) . "</td>";
                                 echo "</tr>";
                             }
