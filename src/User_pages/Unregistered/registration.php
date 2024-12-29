@@ -13,12 +13,12 @@ if ($conn->connect_error) {
 }
 
 // Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = mysqli_real_escape_string($conn, $_POST['real-name']);
-  $nic = mysqli_real_escape_string($conn, $_POST['nic']);
-  $email = mysqli_real_escape_string($conn, $_POST['email']);
-  $password = mysqli_real_escape_string($conn, $_POST['password']);
-  $confirmPassword = mysqli_real_escape_string($conn, $_POST['confirm-password']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $name = $_POST['real-name'];
+  $nic = $_POST['nic'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $confirmPassword = $_POST['confirm-password'];
 
   // Check if passwords match
   if ($password !== $confirmPassword) {
@@ -27,20 +27,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Hash the password
-  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+  // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-  // Insert user into database
-  $sql = "INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES ('$name', '$nic', '$email', '$hashedPassword')";
-  if ($conn->query($sql) === TRUE) {
-    // Redirect to home page upon success
+  $stmt = $conn->prepare("INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES (?, ?, ?, ?)");
+  $stmt->bind_param("ssss", $name, $nic, $email, $password);
+
+  if ($stmt->execute()) {
     header("Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/Login.php");
     exit;
   } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "<script>alert('Error'); window.history.back();</script>" . $stmt->error;
   }
-}
 
-$conn->close();
+  $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,25 +53,17 @@ $conn->close();
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.css" />
+  <script src="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/AccessPage.js"></script>
   <title>JetVoyager Registration</title>
-  <script>
-    function validateForm(event) {
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
 
-      if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        event.preventDefault();
-      }
-    }
-  </script>
 </head>
 
 <body>
   <div class="register-container">
     <div class="register-form-section">
       <h1 class="register-heading">Join JetVoyager</h1>
-      <form action="userRegister.php" method="POST" onsubmit="validateForm(event)">
+      <form action="./registration.php" method="POST">
+        <!-- onsubmit="validateForm(event)" -->
         <div class="input-group">
           <label for="real-name">Full Name</label>
           <input type="text" id="real-name" name="real-name" class="input-field" placeholder="Enter Your Name" required />
@@ -79,7 +71,7 @@ $conn->close();
 
         <div class="input-group">
           <label for="NIC">NIC</label>
-          <input type="text" id="nic" name="nic" class="input-field" placeholder="Enter Your NIC" required />
+          <input type="text" id="nic" name="nic" class="input-field" placeholder="Enter Your NIC" onchange="validateNICOnChange()" required />
         </div>
 
         <div class="input-group">
@@ -89,7 +81,7 @@ $conn->close();
 
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="input-field" placeholder="Enter Your Password" required />
+          <input type="password" id="password" name="password" class="input-field" placeholder="Enter Your Password" onchange="validatePasswordSize()" required />
         </div>
 
         <div class="input-group">
@@ -112,5 +104,17 @@ $conn->close();
     <p>&copy; 2024 JetVoyager. All rights reserved.</p>
   </footer>
 </body>
+
+<script>
+  function validateForm(event) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      event.preventDefault();
+    }
+  }
+</script>
 
 </html>
