@@ -1,4 +1,7 @@
 <?php
+// Start the session at the beginning of the file
+session_start();
+
 // Database connection
 $conn = new mysqli('localhost', 'root', '', 'jetvoyager_db');
 
@@ -19,9 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($password !== $confirmPassword) {
     echo "<script>alert('Passwords do not match!'); window.history.back();</script>";
     exit;
-  }else{
-    
-  
+  }
+
+  // Hash the password
+  // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
   // Prepare SQL statement
   $stmt = $conn->prepare("INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES (?, ?, ?, ?)");
   if ($stmt === false) {
@@ -34,15 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Execute statement
   if ($stmt->execute()) {
     // Redirect to login page
-    header("Location: ../User_pages/Unregistered/Login.php");
-    exit;
+    header("Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php");
+    exit();
   } else {
     echo "<script>alert('Error: " . htmlspecialchars($stmt->error) . "'); window.history.back();</script>";
   }
 
   // Close statement
   $stmt->close();
-  }
 }
 
 // Close connection
