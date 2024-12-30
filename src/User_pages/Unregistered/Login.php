@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   include("http://localhost/JetVoyager/JetVoyager/src/config.php");
 
-  if ($type === "customer") {
+  if ($type === "Traveller") {
     $query = $conn->prepare("SELECT * FROM r_user WHERE EMAIL = ? AND Password = ?");
     $query->bind_param("ss", $email, $passwd);
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php');
         exit();
       } else {
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
+        header('Location: Login.php?error=invalid');
         exit();
       }
     } else {
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $query->close();
-  } else if ($type === "tourguide") {
+  } else if ($type === "Agent") {
     $query = $conn->prepare("SELECT * FROM tour_guides WHERE email = ? AND password = ?");
     $query->bind_param("ss", $email, $passwd);
 
@@ -50,28 +50,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $query->close();
-  } else if ($type === "admin") {
-    $query = $conn->prepare("SELECT * FROM admin WHERE email = ? AND password = ?");
-    $query->bind_param("ss", $email, $passwd);
+  }
+  // else if ($type === "admin") {
+  //   $query = $conn->prepare("SELECT * FROM admin WHERE email = ? AND password = ?");
+  //   $query->bind_param("ss", $email, $passwd);
 
-    if ($query->execute()) {
-      $result = $query->get_result();
+  //   if ($query->execute()) {
+  //     $result = $query->get_result();
 
-      if ($result->num_rows > 0) {
-        $_SESSION['user-email'] = $email;
-        $_SESSION['user-pswd'] = $passwd;
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.html');
-        exit();
-      } else {
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
-        exit();
-      }
-    } else {
-      echo "Error: " . $query->error;
-    }
+  //     if ($result->num_rows > 0) {
+  //       $_SESSION['user-email'] = $email;
+  //       $_SESSION['user-pswd'] = $passwd;
+  //       header('Location: http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.html');
+  //       exit();
+  //     } else {
+  //       header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
+  //       exit();
+  //     }
+  //   } else {
+  //     echo "Error: " . $query->error;
+  //   }
 
-    $query->close();
-  } else {
+  //   $query->close();
+  // } 
+  else {
     echo "Invalid User type";
   }
 
@@ -88,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.css" />
   <script>
-    window.onload = function () {
+    window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('error') && urlParams.get('error') === 'invalid') {
         document.getElementById('error-msg').style.display = 'block';
@@ -110,8 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <div class="input-container">
             <label for="type">Log in As</label>
             <select name="types" id="types">
-              <option value="customer" default>Traveller</option>
-              <option value="tourguide">Agent</option>
+              <option value="Traveller" default>Traveller</option>
+              <option value="Agent">Agent</option>
               <option value="admin">Administrator</option>
             </select>
           </div>
@@ -143,11 +145,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
 
   <script>
-    
-    document.querySelector('#togglePassword').addEventListener('click', () => {
-      const password = document.querySelector('#password');
-      password.type = password.type === 'password' ? 'text' : 'password';
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function() {
+      // Toggle the type attribute
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
     });
+    // document.querySelector('#togglePassword').addEventListener('click', () => {
+    //   const password = document.querySelector('#password');
+    //   password.type = password.type === 'password' ? 'text' : 'password';
+    // });
   </script>
   <footer>
     <p>&copy; 2024 JetVoyager. All rights reserved.</p>
