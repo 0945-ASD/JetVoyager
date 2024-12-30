@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 // Check if the user is logged in
@@ -14,6 +13,32 @@ $userPassword = $_SESSION['user-pswd'];
 
 // Use a relative path to include the config.php file
 include('../../config.php');
+
+// Handle form submission for updating profile
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['name'];
+    $nic = $_POST['nic'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+
+    $updateQuery = $conn->prepare("UPDATE r_user SET Name = ?, NIC = ?, EMAIL = ?, Phone = ?, Password = ? WHERE EMAIL = ?");
+    $updateQuery->bind_param('ssssss', $name, $nic, $email, $phone, $password, $userEmail);
+
+    if ($updateQuery->execute()) {
+        // Update session variables if email or password changed
+        $_SESSION['user-email'] = $email;
+        $_SESSION['user-pswd'] = $password;
+
+        // Redirect to the profile page
+        header('Location: profile.php');
+        exit();
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
+
+    $updateQuery->close();
+}
 
 // Fetch user details from the database
 $query = $conn->prepare("SELECT * FROM r_user WHERE EMAIL = ? AND Password = ?");
@@ -33,7 +58,6 @@ if ($query->execute()) {
 
 $query->close();
 $conn->close();
-
 ?>
 
 <!DOCTYPE html>
@@ -75,23 +99,25 @@ $conn->close();
         <div class="modal" id="edit-modal">
             <div class="modal-content">
                 <h3>Edit Profile</h3>
-                <label for="edit-name">Name:</label>
-                <input type="text" id="edit-name" value="<?php echo htmlspecialchars($userDetails['Name']); ?>">
+                <form id="edit-profile-form" method="POST" action="profile.php">
+                    <label for="edit-name">Name:</label>
+                    <input type="text" id="edit-name" name="name" value="<?php echo htmlspecialchars($userDetails['Name']); ?>">
 
-                <label for="edit-NIC">NIC:</label>
-                <input type="text" id="edit-NIC" value="<?php echo htmlspecialchars($userDetails['NIC']); ?>">
+                    <label for="edit-NIC">NIC:</label>
+                    <input type="text" id="edit-NIC" name="nic" value="<?php echo htmlspecialchars($userDetails['NIC']); ?>">
 
-                <label for="edit-email">Email:</label>
-                <input type="email" id="edit-email" value="<?php echo htmlspecialchars($userDetails['EMAIL']); ?>">
+                    <label for="edit-email">Email:</label>
+                    <input type="email" id="edit-email" name="email" value="<?php echo htmlspecialchars($userDetails['EMAIL']); ?>">
 
-                <label for="edit-phone">Phone:</label>
-                <input type="tel" id="edit-phone" value="<?php echo htmlspecialchars($userDetails['Phone']); ?>">
+                    <label for="edit-phone">Phone:</label>
+                    <input type="tel" id="edit-phone" name="phone" value="<?php echo htmlspecialchars($userDetails['Phone']); ?>">
 
-                <label for="edit-Password">Password:</label>
-                <input type="password" id="edit-Password" value="<?php echo htmlspecialchars($userDetails['Password']); ?>">
+                    <label for="edit-Password">Password:</label>
+                    <input type="password" id="edit-Password" name="password" value="<?php echo htmlspecialchars($userDetails['Password']); ?>">
 
-                <button class="save-button" onclick="saveChanges()">Save</button>
-                <button class="cancel-button" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" onclick="closeModal()">Cancel</button>
+                </form>
             </div>
         </div>
     </main>
@@ -107,24 +133,6 @@ $conn->close();
 
         function closeModal() {
             document.getElementById('edit-modal').style.display = 'none';
-        }
-
-        function saveChanges() {
-            const name = document.getElementById('edit-name').value;
-            const NIC = document.getElementById('edit-NIC').value;
-            const email = document.getElementById('edit-email').value;
-            const phone = document.getElementById('edit-phone').value;
-            const Password = document.getElementById('edit-Password').value;
-
-            // Update the profile details
-            document.getElementById('profile-name').innerText = name;
-            document.getElementById('profile-NIC').innerText = NIC;
-            document.getElementById('profile-email').innerText = email;
-            document.getElementById('profile-phone').innerText = phone;
-            document.getElementById('profile-Password').innerText = Password;
-
-            // Close the modal
-            closeModal();
         }
     </script>
 </body>
