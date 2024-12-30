@@ -6,7 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email = $_POST['email'];
   $passwd = $_POST['password'];
 
-  include("http://localhost/JetVoyager/JetVoyager/src/config.php");
+  // Use a relative path to include the config.php file
+  include("../../config.php");
 
   if ($type === "Traveller") {
     $query = $conn->prepare("SELECT * FROM r_user WHERE EMAIL = ? AND Password = ?");
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['user-email'] = $email;
         $_SESSION['user-pswd'] = $passwd;
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php');
+        header('Location: ../registered/homePage.php');
         exit();
       } else {
         header('Location: Login.php?error=invalid');
@@ -39,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['user-email'] = $email;
         $_SESSION['user-pswd'] = $passwd;
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.html');
+        header('Location: ../../Agent_pages/homePage.html');
         exit();
       } else {
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
+        header('Location: ../../User_pages/Unregistered/HomePage.html');
         exit();
       }
     } else {
@@ -50,30 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $query->close();
-  }
-  // else if ($type === "admin") {
-  //   $query = $conn->prepare("SELECT * FROM admin WHERE email = ? AND password = ?");
-  //   $query->bind_param("ss", $email, $passwd);
-
-  //   if ($query->execute()) {
-  //     $result = $query->get_result();
-
-  //     if ($result->num_rows > 0) {
-  //       $_SESSION['user-email'] = $email;
-  //       $_SESSION['user-pswd'] = $passwd;
-  //       header('Location: http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.html');
-  //       exit();
-  //     } else {
-  //       header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html');
-  //       exit();
-  //     }
-  //   } else {
-  //     echo "Error: " . $query->error;
-  //   }
-
-  //   $query->close();
-  // } 
-  else {
+  } else {
     echo "Invalid User type";
   }
 
@@ -88,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.css" />
+  <link rel="stylesheet" href="Login.css" />
   <script>
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -101,8 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-  <!-- <p class="logo"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/HomePage.html">JetVoyager</a></p> -->
-
   <div class="main-container">
     <div class="login-methods">
       <h1>Log in</h1>
@@ -136,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       <hr />
 
-      <p>Don't have an account? <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.php">Sign up here</a></p>
+      <p>Don't have an account? <a href="registration.php">Sign up here</a></p>
     </div>
 
     <div class="login-image">
@@ -149,14 +125,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     const passwordInput = document.querySelector('#password');
 
     togglePassword.addEventListener('click', function() {
-      // Toggle the type attribute
       const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
       passwordInput.setAttribute('type', type);
     });
-    // document.querySelector('#togglePassword').addEventListener('click', () => {
-    //   const password = document.querySelector('#password');
-    //   password.type = password.type === 'password' ? 'text' : 'password';
-    // });
   </script>
   <footer>
     <p>&copy; 2024 JetVoyager. All rights reserved.</p>

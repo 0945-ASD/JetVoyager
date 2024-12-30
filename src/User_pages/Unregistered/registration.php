@@ -1,10 +1,5 @@
 <?php
 // Database connection
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "jetvoyager";
-
 $conn = new mysqli('localhost', 'root', '', 'jetvoyager_db');
 
 // Check connection
@@ -24,23 +19,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($password !== $confirmPassword) {
     echo "<script>alert('Passwords do not match!'); window.history.back();</script>";
     exit;
+  }else{
+    
+  
+  // Prepare SQL statement
+  $stmt = $conn->prepare("INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES (?, ?, ?, ?)");
+  if ($stmt === false) {
+    die('Prepare failed: ' . htmlspecialchars($conn->error));
   }
 
-  // Hash the password
-  // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-  $stmt = $conn->prepare("INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES (?, ?, ?, ?)");
+  // Bind parameters
   $stmt->bind_param("ssss", $name, $nic, $email, $password);
 
+  // Execute statement
   if ($stmt->execute()) {
-    header("Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/Login.php");
+    // Redirect to login page
+    header("Location: ../User_pages/Unregistered/Login.php");
     exit;
   } else {
-    echo "<script>alert('Error'); window.history.back();</script>" . $stmt->error;
+    echo "<script>alert('Error: " . htmlspecialchars($stmt->error) . "'); window.history.back();</script>";
   }
 
+  // Close statement
   $stmt->close();
+  }
 }
+
+// Close connection
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -55,15 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.css" />
   <script src="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/AccessPage.js"></script>
   <title>JetVoyager Registration</title>
-
 </head>
 
 <body>
   <div class="register-container">
     <div class="register-form-section">
       <h1 class="register-heading">Join JetVoyager</h1>
-      <form action="./registration.php" method="POST">
-        <!-- onsubmit="validateForm(event)" -->
+      <form action="registration.php" method="POST" onsubmit="validateForm(event)">
         <div class="input-group">
           <label for="real-name">Full Name</label>
           <input type="text" id="real-name" name="real-name" class="input-field" placeholder="Enter Your Name" required />
@@ -104,17 +108,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <p>&copy; 2024 JetVoyager. All rights reserved.</p>
   </footer>
 </body>
-
-<script>
-  function validateForm(event) {
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-
-    if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      event.preventDefault();
-    }
-  }
-</script>
-
 </html>
