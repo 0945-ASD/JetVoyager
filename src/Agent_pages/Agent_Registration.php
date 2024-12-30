@@ -13,8 +13,10 @@ if ($conn->connect_error) {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name = $_POST['real-name'];
-  $nic = $_POST['nic'];
+  $location = $_POST['location'];
+  $phone = $_POST['phone'];
   $email = $_POST['email'];
+  $NoOfRooms = $_POST['NoOfRooms'];
   $password = $_POST['password'];
   $confirmPassword = $_POST['confirm-password'];
 
@@ -25,16 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // Hash the password
-  // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
   // Prepare SQL statement
-  $stmt = $conn->prepare("INSERT INTO r_user (Name, NIC, EMAIL, Password) VALUES (?, ?, ?, ?)");
+  $stmt = $conn->prepare("INSERT INTO hotel_agent (Hotel_name, Location, Hotel_phone, Hotel_email,No_of_rooms, password) VALUES (?, ?, ?, ?, ?, ?)");
   if ($stmt === false) {
     die('Prepare failed: ' . htmlspecialchars($conn->error));
   }
 
   // Bind parameters
-  $stmt->bind_param("ssss", $name, $nic, $email, $password);
+  $stmt->bind_param("ssssss", $name, $location, $phone, $email, $NoOfRooms, $password);
 
   // Execute statement
   if ($stmt->execute()) {
@@ -51,10 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Close connection
 $conn->close();
-
-session_destroy();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,23 +64,28 @@ session_destroy();
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.css" />
-  <script src="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/AccessPage.js"></script>
-  <title>JetVoyager Registration</title>
+  <script src="http://localhost/JetVoyager/JetVoyager/src/Agent_pages/Agent_Access.js"></script>
+  <title>JetVoyager Hotel Registration</title>
 </head>
 
 <body>
   <div class="register-container">
     <div class="register-form-section">
-      <h1 class="register-heading">Join JetVoyager</h1>
-      <form action="registration.php" method="POST" onsubmit="validateForm(event)">
+      <h1 class="register-heading">Join JetVoyager Hotel Portal</h1>
+      <form action="Agent_Registration.php" method="POST" onsubmit="validateForm(event)">
         <div class="input-group">
-          <label for="real-name">Full Name</label>
-          <input type="text" id="real-name" name="real-name" class="input-field" placeholder="Enter Your Name" required />
+          <label for="real-name">Hotel Name</label>
+          <input type="text" id="real-name" name="real-name" class="input-field" placeholder="Enter hotel Name" required />
         </div>
 
         <div class="input-group">
-          <label for="NIC">NIC</label>
-          <input type="text" id="nic" name="nic" class="input-field" placeholder="Enter Your NIC" onchange="validateNICOnChange()" required />
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location" class="input-field" placeholder="Enter hotel location" required />
+        </div>
+
+        <div class="input-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" class="input-field" placeholder="Enter hotel phone" required />
         </div>
 
         <div class="input-group">
@@ -90,8 +94,14 @@ session_destroy();
         </div>
 
         <div class="input-group">
+          <label for="NoOfRooms">Number of rooms</label>
+          <input type="number" id="NoOfRooms" name="NoOfRooms" class="input-field" placeholder="Enter number of rooms" required />
+        </div>
+
+        <div class="input-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" class="input-field" placeholder="Enter Your Password" onchange="validatePasswordSize()" required />
+          <p id="password-notification" style="display:none; color:red;">Password must be at least 8 characters long.</p>
         </div>
 
         <div class="input-group">
@@ -113,5 +123,7 @@ session_destroy();
   <footer>
     <p>&copy; 2024 JetVoyager. All rights reserved.</p>
   </footer>
+
 </body>
+
 </html>

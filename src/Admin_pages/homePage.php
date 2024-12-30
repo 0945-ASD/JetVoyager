@@ -79,7 +79,7 @@ session_destroy();
                 <!-- <li><a href="#users">Manage Users</a></li> -->
                 <li><a href="#tours">Manage Destinations</a></li>
                 <li><a href="#bookings">Manage Recent Bookings</a></li>
-                <li><a href="#notifications">Notifications</a></li>
+                <!-- <li><a href="#notifications">Notifications</a></li> -->
                 <!-- <li><a href="#reports">Reports</a></li> -->
                 <li><a href="#settings">Settings</a></li>
                 <li><a href="#support">Customer Support</a></li>

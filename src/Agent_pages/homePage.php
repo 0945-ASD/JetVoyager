@@ -1,3 +1,26 @@
+<?php
+
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user-email'])) {
+  header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
+  exit();
+}
+
+// Retrieve the session variables
+$userEmail = $_SESSION['user-email'];
+$userPassword = $_SESSION['user-pswd'];
+
+// Use a relative path to include the config.php file
+$configPath = __DIR__ . '/../config.php'; // Adjust path as needed
+if (file_exists($configPath)) {
+    include($configPath);
+} else {
+    die("Error: Unable to load configuration file.");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,17 +37,23 @@
             <div class="sidebar-header">JetVoyager</div>
             <ul class="menu">
                 <div class="sidebar-item">
-                <li><a href="#dashboard">Dashboard</a></li></div>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                </div>
                 <div class="sidebar-item">
-                <li><a href="#tour-management">Tour Management</a></li></div>
+                    <li><a href="#tour-management">Tour Management</a></li>
+                </div>
                 <div class="sidebar-item">
-                <li><a href="#booking-management">Booking Management</a></li></div>
+                    <li><a href="#booking-management">Booking Management</a></li>
+                </div>
                 <div class="sidebar-item">
-                <li><a href="#customer-interaction">Customer Interaction</a></li></div>
+                    <li><a href="#customer-interaction">Customer Interaction</a></li>
+                </div>
                 <div class="sidebar-item">
-                <li><a href="#reports">Reports</a></li></div>
-                <div class="sidebar-item"></div>
-                <li><a href="#profile">Profile</a></li></div>
+                    <li><a href="#reports">Reports</a></li>
+                </div>
+                <div class="sidebar-item">
+                    <li><a href="#profile">Profile</a></li>
+                </div>
             </ul>
         </div>
 

@@ -1,162 +1,66 @@
 /* General Reset */
-body, h1, h2, h3, p, ul, li, table, th, td, button {
+body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
-    display: flex;
     min-height: 100vh;
 }
 
 .admin-container {
     display: flex;
+    flex-wrap: nowrap;
     width: 100%;
 }
 
 /* Sidebar Styling */
-
-  .sidebar {
+.sidebar {
     width: 250px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #a034e4;
-    padding-top: 20px;
-    z-index: 1000;
-  }
-  
-  .sidebar-item {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .sidebar-item a {
+    min-height: 100vh;
+    background-color: #3a34e4;
     color: white;
-    text-decoration: none;
-    display: block;
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-  }
-  
-  .sidebar-item a:hover {
-    background-color: #575757;
-  }
-  
-
-.sidebar:hover {
-    width: 250px;
+    padding-top: 20px;
+    position: relative;
+    flex-shrink: 0;
+    transition: opacity 0.3s;
 }
 
-.sidebar-header {
-    margin-bottom: 20px;
+.sidebar .sidebar-header {
     font-size: 20px;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s;
+    margin-bottom: 20px;
 }
 
-.sidebar:hover .sidebar-header {
-    opacity: 1;
-}
-
-.menu {
+.sidebar .menu {
     list-style: none;
-    overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 
-.menu li {
+.sidebar .menu li {
     margin: 15px 0;
-    opacity: 0;
-    transition: opacity 0.3s;
 }
 
-.sidebar:hover .menu li {
-    opacity: 1;
-}
-
-.menu a {
-    color: #ecf0f1;
+.sidebar .menu li a {
+    color: white;
     text-decoration: none;
     font-size: 16px;
-    transition: color 0.3s;
+    padding: 10px 20px;
     display: block;
-    padding: 10px;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
 }
 
-.menu a:hover {
-    color: #3498db;
-}
-
-/* Navigation Bar Styling */
-nav {
-    background: linear-gradient(90deg, #3498db, #9b59b6);
-    color: #fff;
-    padding: 1em 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-nav ul {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-nav ul li a:hover {
-    color: #f1c40f;
-    transform: scale(1.1);
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: color 0.3s;
-    text-align: center;
-}
-
-.logo:hover {
-    color: #ffd700;
+.sidebar .menu li a:hover {
+    background-color: #575757;
 }
 
 /* Main Content Styling */
 .main-content {
-    margin-left: 60px;
+    flex-grow: 1;
     padding: 20px;
-    width: calc(100% - 60px);
-    transition: margin-left 0.3s;
-}
-
-.sidebar:hover ~ .main-content {
-    margin-left: 250px;
-    width: calc(100% - 250px);
 }
 
 .header {
@@ -170,6 +74,7 @@ nav ul li a:hover {
 
 .header h1 {
     font-size: 24px;
+    margin: 0;
 }
 
 .header-actions button {

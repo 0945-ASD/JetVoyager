@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $query->close();
   } else if ($type === "Agent") {
-    $query = $conn->prepare("SELECT * FROM tour_guides WHERE email = ? AND password = ?");
+    $query = $conn->prepare("SELECT * FROM hotel_agent WHERE Hotel_email = ? AND password = ?");
     $query->bind_param("ss", $email, $passwd);
 
     if ($query->execute()) {
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['user-email'] = $email;
         $_SESSION['user-pswd'] = $passwd;
-        header('Location: ../../Agent_pages/homePage.html');
+        header('Location: http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.php');
         exit();
       } else {
         header('Location: ../../User_pages/Unregistered/HomePage.html');

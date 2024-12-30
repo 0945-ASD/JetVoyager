@@ -1,3 +1,23 @@
+<?php
+
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user-email'])) {
+  header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
+  exit();
+}
+
+// Retrieve the session variables
+$userEmail = $_SESSION['user-email'];
+$userPassword = $_SESSION['user-pswd'];
+
+// Use a relative path to include the config.php file
+include('../../config.php');
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
