@@ -4,8 +4,8 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user-email'])) {
-  header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
-  exit();
+    header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
+    exit();
 }
 
 // Retrieve the session variables
@@ -20,9 +20,55 @@ if (file_exists($configPath)) {
     die("Error: Unable to load configuration file.");
 }
 
+// Handle form submission for updating profile
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['name'];
+    $location = $_POST['location']; // Adjusted to match the 'Location' column
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+
+    $updateQuery = $conn->prepare("UPDATE hotel_agent SET Hotel_name = ?, Location = ?, Hotel_email = ?, Hotel_phone = ?, password = ? WHERE Hotel_email = ?");
+    $updateQuery->bind_param('ssssss', $name, $location, $email, $phone, $password, $userEmail);
+
+    if ($updateQuery->execute()) {
+        // Update session variables if email or password changed
+        $_SESSION['user-email'] = $email;
+        $_SESSION['user-pswd'] = $password;
+
+        // Redirect to the profile page
+        header('Location: profile.php');
+        exit();
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
+
+    $updateQuery->close();
+}
+
+// Fetch user details from the database
+$query = $conn->prepare("SELECT * FROM hotel_agent WHERE Hotel_email = ? AND password = ?");
+$query->bind_param('ss', $userEmail, $userPassword);
+
+$userDetails = [];
+if ($query->execute()) {
+    $result = $query->get_result();
+
+    if ($result->num_rows > 0) {
+        $userDetails = $result->fetch_assoc();
+    } else {
+        echo "Invalid login credentials!";
+        exit();
+    }
+}
+
+$query->close();
+$conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,30 +76,19 @@ if (file_exists($configPath)) {
     <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.css">
     <script src="scripts.js" defer></script>
 </head>
+
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">JetVoyager</div>
             <ul class="menu">
-                <div class="sidebar-item">
-                    <li><a href="#dashboard">Dashboard</a></li>
-                </div>
-                <div class="sidebar-item">
-                    <li><a href="#tour-management">Tour Management</a></li>
-                </div>
-                <div class="sidebar-item">
-                    <li><a href="#booking-management">Booking Management</a></li>
-                </div>
-                <div class="sidebar-item">
-                    <li><a href="#customer-interaction">Customer Interaction</a></li>
-                </div>
-                <div class="sidebar-item">
-                    <li><a href="#reports">Reports</a></li>
-                </div>
-                <div class="sidebar-item">
-                    <li><a href="#profile">Profile</a></li>
-                </div>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#tour-management">Tour Management</a></li>
+                <li><a href="#booking-management">Booking Management</a></li>
+                <li><a href="#customer-interaction">Customer Interaction</a></li>
+                <li><a href="#reports">Reports</a></li>
+                <li><a href="#profile">Profile</a></li>
             </ul>
         </div>
 
@@ -65,7 +100,7 @@ if (file_exists($configPath)) {
                     <button>Logout</button>
                 </div>
             </header>
-            
+
             <main>
                 <!-- Dashboard Section -->
                 <section id="dashboard" class="section">
@@ -126,22 +161,47 @@ if (file_exists($configPath)) {
 
                 <!-- Profile Section -->
                 <section id="profile" class="section">
-                    <h2>Agent Profile</h2>
-                    <form id="profile-form">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name">
+                    <div id="profile" class="profile">
+                        <h2>Your Profile</h2>
+                        <div class="profile-details">
+                            <p><strong>Hotel Name:</strong> <span id="profile-name"><?php echo htmlspecialchars($userDetails['Hotel_name']); ?></span></p>
+                            <p><strong>Location:</strong> <span id="profile-location"><?php echo htmlspecialchars($userDetails['Location']); ?></span></p>
+                            <p><strong>Email:</strong> <span id="profile-email"><?php echo htmlspecialchars($userDetails['Hotel_email']); ?></span></p>
+                            <p><strong>Phone:</strong> <span id="profile-phone"><?php echo htmlspecialchars($userDetails['Hotel_phone']); ?></span></p>
+                            <p><strong>Password:</strong> <span id="profile-password"><?php echo htmlspecialchars($userDetails['password']); ?></span></p>
 
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email">
+                            <button class="edit-button" onclick="openModal()">Edit Profile</button>
+                        </div>
+                    </div>
 
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password">
+                    <div class="modal" id="edit-modal">
+                        <div class="modal-content">
+                            <h3>Edit Profile</h3>
+                            <form id="edit-profile-form" method="POST" action="profile.php">
+                                <label for="edit-name">Hotel Name:</label>
+                                <input type="text" id="edit-name" name="name" value="<?php echo htmlspecialchars($userDetails['Hotel_name']); ?>">
 
-                        <button type="submit">Update Profile</button>
-                    </form>
+                                <label for="edit-location">Location:</label>
+                                <input type="text" id="edit-location" name="location" value="<?php echo htmlspecialchars($userDetails['Location']); ?>">
+
+                                <label for="edit-email">Email:</label>
+                                <input type="email" id="edit-email" name="email" value="<?php echo htmlspecialchars($userDetails['Hotel_email']); ?>">
+
+                                <label for="edit-phone">Phone:</label>
+                                <input type="tel" id="edit-phone" name="phone" value="<?php echo htmlspecialchars($userDetails['Hotel_phone']); ?>">
+
+                                <label for="edit-password">Password:</label>
+                                <input type="password" id="edit-password" name="password" value="<?php echo htmlspecialchars($userDetails['password']); ?>">
+
+                                <button type="submit" class="save-button">Save</button>
+                                <button type="button" class="cancel-button" onclick="closeModal()">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
                 </section>
             </main>
         </div>
     </div>
 </body>
+
 </html>
