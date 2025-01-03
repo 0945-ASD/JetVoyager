@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = $query->get_result();
 
       if ($result->num_rows > 0) {
-        $_SESSION['user-email'] = $email;
-        $_SESSION['user-pswd'] = $passwd;
+        $_SESSION['agent-email'] = $email;
+        $_SESSION['agent-pswd'] = $passwd;
         header('Location: http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.php');
         exit();
       } else {
