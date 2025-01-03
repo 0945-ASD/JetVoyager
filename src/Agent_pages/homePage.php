@@ -100,7 +100,7 @@ $conn->close();
                 <h1>Agent Portal</h1>
                 <div class="header-actions">
                     <!-- Inside the header-actions div -->
-                    <form action="logout.php" method="POST" style="display:inline;">
+                    <form action="http://localhost/JetVoyager/JetVoyager/src/logout.php" method="POST" style="display:inline;">
                         <button type="submit" name="logout">Logout</button>
                     </form>
 
