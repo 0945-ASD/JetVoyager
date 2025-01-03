@@ -56,5 +56,5 @@ session_destroy();
         © 2024 JetVoyager. All Rights Reserved.
     </footer>
 
-</body>1
+</body>
 </html>

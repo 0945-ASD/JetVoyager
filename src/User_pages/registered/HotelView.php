@@ -11,25 +11,25 @@ if (!isset($_SESSION['user-email'])) {
 $userEmail = $_SESSION['user-email'];
 $userPassword = $_SESSION['user-pswd'];
 
-// Use a relative path to include the config.php file
+// Include the config.php file
 include('../../config.php');
 
-// $hotelId = intval($_GET['hotel_id']);
+// Fetch all hotel details from the database
+$query = $conn->prepare("SELECT Hotel_ID, Hotel_name, Location, No_of_rooms, Hotel_phone, Hotel_email FROM hotel_agent");
+$query->execute();
+$result = $query->get_result();
 
-// // Fetch hotel details from the database
-// $query = $conn->prepare("SELECT name, location, price_per_night FROM hotels WHERE id = ?");
-// $query->bind_param('i', $hotelId);
-// $query->execute();
-// $result = $query->get_result();
+$hotels = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $hotels[] = $row; // Add each hotel record to the array
+    }
+} else {
+    die("No hotels found.");
+}
 
-// if ($result->num_rows > 0) {
-//     $hotel = $result->fetch_assoc();
-// } else {
-//     die("Hotel not found.");
-// }
-
-// $query->close();
-// $conn->close();
+$query->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +38,7 @@ include('../../config.php');
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JetVoyager - Tour Management</title>
+    <title>JetVoyager - Hotel Booking</title>
     <link
         rel="stylesheet"
         href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.css" />
@@ -49,24 +49,34 @@ include('../../config.php');
         <a class="logo" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
         <div class="navbar">
             <ul class="nav-links">
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/bookTours.php" onclick="showFeature('book-tours'); return false;">Book Tours</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/HotelView.php" onclick="showFeature('book-tours'); return false;">View Hotels</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/manageTours.php" onclick="showFeature('manage-tours'); return false;">Manage Tours</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/tourHistory.php" onclick="showFeature('tour-history'); return false;">Tour History</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/profile.php" onclick="showFeature('profile'); return false;">Profile</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/bookTours.php">Book Tours</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/HotelView.php">View Hotels</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/manageTours.php">Manage Tours</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/tourHistory.php">Tour History</a></li>
+                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/profile.php">Profile</a></li>
             </ul>
         </div>
     </header>
-    <form method="POST" action="confirmBooking.php">
-        <input type="hidden" name="hotel_id" value="<?php echo $hotelId; ?>">
-        <label for="check-in">Check-in Date:</label>
-        <input type="date" id="check-in" name="check_in" required>
 
-        <label for="check-out">Check-out Date:</label>
-        <input type="date" id="check-out" name="check_out" required>
-
-        <button type="submit">Confirm Booking</button>
-    </form>
+    <main>
+        <h1>Available Hotels</h1>
+        <section class="hotels">
+            <?php if (!empty($hotels)) : ?>
+                <?php foreach ($hotels as $hotel) : ?>
+                    <div class="hotel-card">
+                        <h2><?php echo htmlspecialchars($hotel['Hotel_name']); ?></h2>
+                        <p><strong>Location:</strong> <?php echo htmlspecialchars($hotel['Location']); ?></p>
+                        <p><strong>Number of Rooms:</strong> <?php echo htmlspecialchars($hotel['No_of_rooms']); ?></p>
+                        <p><strong>Phone:</strong> <?php echo htmlspecialchars($hotel['Hotel_phone']); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($hotel['Hotel_email']); ?></p>
+                        <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/viewHotelDetails.php?Hotel_ID=<?php echo $hotel['Hotel_ID']; ?>">View Details</a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p>No hotels are currently available.</p>
+            <?php endif; ?>
+        </section>
+    </main>
 </body>
 
 </html>

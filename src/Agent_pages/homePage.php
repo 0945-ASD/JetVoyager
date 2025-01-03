@@ -86,7 +86,7 @@ $conn->close();
             <div class="sidebar-header">JetVoyager</div>
             <ul class="menu">
                 <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#tour-management">Tour Management</a></li>
+                <!-- <li><a href="#tour-management">Tour Management</a></li> -->
                 <li><a href="#booking-management">Booking Management</a></li>
                 <li><a href="#customer-interaction">Customer Interaction</a></li>
                 <li><a href="#reports">Reports</a></li>
@@ -99,7 +99,11 @@ $conn->close();
             <header class="header">
                 <h1>Agent Portal</h1>
                 <div class="header-actions">
-                    <button>Logout</button>
+                    <!-- Inside the header-actions div -->
+                    <form action="logout.php" method="POST" style="display:inline;">
+                        <button type="submit" name="logout">Logout</button>
+                    </form>
+
                 </div>
             </header>
 
@@ -119,14 +123,14 @@ $conn->close();
                 </section>
 
                 <!-- Tour Management Section -->
-                <section id="tour-management" class="section">
+                <!-- <section id="tour-management" class="section">
                     <h2>Tour Management</h2>
                     <button id="create-tour">Create New Tour</button>
                     <div id="tour-list">
                         <h3>Existing Tours</h3>
                         <ul></ul>
                     </div>
-                </section>
+                </section> -->
 
                 <!-- Booking Management Section -->
                 <section id="booking-management" class="section">
@@ -134,8 +138,8 @@ $conn->close();
                     <table>
                         <thead>
                             <tr>
-                                <th>Tour Name</th>
                                 <th>Customer</th>
+                                <th>Room</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
