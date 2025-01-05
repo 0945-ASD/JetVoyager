@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = $_POST['phone'];
     $password = $_POST['password'];
 
-    $updateQuery = $conn->prepare("UPDATE r_user SET Name = ?, NIC = ?, EMAIL = ?, Phone = ?, Password = ? WHERE EMAIL = ?");
+    $updateQuery = $conn->prepare("UPDATE r_user SET Name = ?, NIC = ?, EMAIL = ?, PhoneNum = ?, Password = ? WHERE EMAIL = ?");
     $updateQuery->bind_param('ssssss', $name, $nic, $email, $phone, $password, $userEmail);
 
     if ($updateQuery->execute()) {
@@ -75,11 +75,11 @@ $conn->close();
         <a class="logo" href="http://localhost/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
         <div class="navbar">
             <ul class="nav-links">
-                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/bookTours.php" onclick="showFeature('book-tours'); return false;">Book Tours</a></li>
-                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/HotelView.php" onclick="showFeature('book-tours'); return false;">View Hotels</a></li>
-                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/manageTours.php" onclick="showFeature('manage-tours'); return false;">Manage Tours</a></li>
-                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/tourHistory.php" onclick="showFeature('tour-history'); return false;">Tour History</a></li>
-                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/profile.php" onclick="showFeature('profile'); return false;">Profile</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/bookTours.php">Book Tours</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/HotelView.php">View Hotels</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/manageTours.php">Manage Tours</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/tourHistory.php">Tour History</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/profile.php">Profile</a></li>
             </ul>
         </div>
     </header>
@@ -90,7 +90,7 @@ $conn->close();
                 <p><strong>Name:</strong> <span id="profile-name"><?php echo htmlspecialchars($userDetails['Name']); ?></span></p>
                 <p><strong>NIC:</strong> <span id="profile-NIC"><?php echo htmlspecialchars($userDetails['NIC']); ?></span></p>
                 <p><strong>Email:</strong> <span id="profile-email"><?php echo htmlspecialchars($userDetails['EMAIL']); ?></span></p>
-                <p><strong>Phone:</strong> <span id="profile-phone"><?php echo htmlspecialchars($userDetails['Phone']); ?></span></p>
+                <p><strong>Phone:</strong> <span id="profile-phone"><?php echo htmlspecialchars($userDetails['PhoneNum']); ?></span></p>
                 <p><strong>Password:</strong> <span id="profile-Password"><?php echo htmlspecialchars($userDetails['Password']); ?></span></p>
 
                 <button class="edit-button" onclick="openModal()">Edit Profile</button>
@@ -111,7 +111,7 @@ $conn->close();
                     <input type="email" id="edit-email" name="email" value="<?php echo htmlspecialchars($userDetails['EMAIL']); ?>">
 
                     <label for="edit-phone">Phone:</label>
-                    <input type="tel" id="edit-phone" name="phone" value="<?php echo htmlspecialchars($userDetails['Phone']); ?>">
+                    <input type="tel" id="edit-phone" name="phone" value="<?php echo htmlspecialchars($userDetails['PhoneNum']); ?>">
 
                     <label for="edit-Password">Password:</label>
                     <input type="password" id="edit-Password" name="password" value="<?php echo htmlspecialchars($userDetails['Password']); ?>">

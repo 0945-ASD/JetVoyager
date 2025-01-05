@@ -31,7 +31,6 @@ if ($result->num_rows > 0) {
 $query->close();
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,6 +41,55 @@ $conn->close();
     <link
         rel="stylesheet"
         href="http://localhost/JetVoyager/src/User_pages/registered/homePage.css" />
+    <style>
+        .hotels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .hotel-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hotel-card h2 {
+            color: #0073e6;
+            margin: 0 0 10px;
+        }
+
+        .hotel-card p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .hotel-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #0073e6;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .hotel-card a:hover {
+            background-color: #005bb5;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+    </style>
 </head>
 
 <body>
@@ -77,6 +125,9 @@ $conn->close();
             <?php endif; ?>
         </section>
     </main>
+    <footer>
+        © 2024 JetVoyager. All Rights Reserved.
+    </footer>
 </body>
 
 </html>
