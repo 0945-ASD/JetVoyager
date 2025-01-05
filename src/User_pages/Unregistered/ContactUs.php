@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <title>Contact Us</title>
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.css">
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.css">
+  <link rel="stylesheet" href="http://localhost/JetVoyager/src/User_pages/Unregistered/HomePage.css">
+  <link rel="stylesheet" href="http://localhost/JetVoyager/src/User_pages/Unregistered/ContactUs.css">
 </head>
 
 <body>
@@ -63,14 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <nav>
       <div class="logo">JetVoyager</div>
       <ul class="nav-links">
-        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/HomePage.html">Home</a></li>
-        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Destination.html">Destinations</a></li>
-        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
-        <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/ContactUs.php">Contact</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/Unregistered/HomePage.html">Home</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/Unregistered/Destination.html">Destinations</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/Unregistered/aboutUs.html">About Us</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/Unregistered/ContactUs.php">Contact</a></li>
       </ul>
       <div class="button-container">
-        <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php">Login</a></button>
-        <button class="cta-button"><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.php">Register</a></button>
+        <button class="cta-button"><a href="http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php">Login</a></button>
+        <button class="cta-button"><a href="http://localhost/JetVoyager/src/User_pages/Unregistered/registration.php">Register</a></button>
       </div>
     </nav>
   </header>
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="container">
         <!-- Left Section: Contact Details -->
         <div class="contact-details">
-          <img src="http://localhost/JetVoyager/JetVoyager/images/1.png" alt="Contact Us" width="300px" height="300px" />
+          <img src="http://localhost/JetVoyager/images/1.png" alt="Contact Us" width="300px" height="300px" />
           <div class="contactUs_page_description">
             <i>We are here to assist you with your travel needs. Whether you have questions, require support, or want to share your feedback, our team at JetVoyager is eager to help. Feel free to contact us through the form below, or reach out via email or phone. We aim to respond promptly and ensure your travel experience is exceptional.</i>
           </div>

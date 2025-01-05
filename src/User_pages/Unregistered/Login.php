@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if ($result->num_rows > 0) {
         $_SESSION['agent-email'] = $email;
         $_SESSION['agent-pswd'] = $passwd;
-        header('Location: http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.php');
+        header('Location: http://localhost/JetVoyager/src/Agent_pages/homePage.php');
         exit();
       } else {
         header('Location: ../../User_pages/Unregistered/HomePage.html');
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <div class="login-image">
-      <img src="http://localhost/JetVoyager/JetVoyager/images/1.png" alt="Travel and Tours" />
+      <img src="http://localhost/JetVoyager/images/1.png" alt="Travel and Tours" />
     </div>
   </div>
 

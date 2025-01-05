@@ -3,7 +3,7 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user-email'])) {
-    header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
+    header('Location: http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php');
     exit();
 }
 
@@ -41,19 +41,19 @@ $conn->close();
     <title>JetVoyager - Hotel Booking</title>
     <link
         rel="stylesheet"
-        href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.css" />
+        href="http://localhost/JetVoyager/src/User_pages/registered/homePage.css" />
 </head>
 
 <body>
     <header>
-        <a class="logo" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
+        <a class="logo" href="http://localhost/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
         <div class="navbar">
             <ul class="nav-links">
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/bookTours.php">Book Tours</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/HotelView.php">View Hotels</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/manageTours.php">Manage Tours</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/tourHistory.php">Tour History</a></li>
-                <li><a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/profile.php">Profile</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/bookTours.php">Book Tours</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/HotelView.php">View Hotels</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/manageTours.php">Manage Tours</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/tourHistory.php">Tour History</a></li>
+                <li><a href="http://localhost/JetVoyager/src/User_pages/registered/profile.php">Profile</a></li>
             </ul>
         </div>
     </header>
@@ -69,7 +69,7 @@ $conn->close();
                         <p><strong>Number of Rooms:</strong> <?php echo htmlspecialchars($hotel['No_of_rooms']); ?></p>
                         <p><strong>Phone:</strong> <?php echo htmlspecialchars($hotel['Hotel_phone']); ?></p>
                         <p><strong>Email:</strong> <?php echo htmlspecialchars($hotel['Hotel_email']); ?></p>
-                        <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/viewHotelDetails.php?Hotel_ID=<?php echo $hotel['Hotel_ID']; ?>">View Details</a>
+                        <a href="http://localhost/JetVoyager/src/User_pages/registered/viewHotelDetails.php?Hotel_ID=<?php echo $hotel['Hotel_ID']; ?>">View Details</a>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>

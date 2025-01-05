@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Details</title>
-    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/registered/homePage.css">
+    <link rel="stylesheet" href="http://localhost/JetVoyager/src/User_pages/registered/homePage.css">
 </head>
 <body>
     <header>

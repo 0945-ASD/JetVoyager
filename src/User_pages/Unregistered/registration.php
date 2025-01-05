@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Execute statement
   if ($stmt->execute()) {
     // Redirect to login page
-    header("Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php");
+    header("Location: http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php");
     exit();
   } else {
     echo "<script>alert('Error: " . htmlspecialchars($stmt->error) . "'); window.history.back();</script>";
@@ -64,8 +64,8 @@ session_destroy();
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/registration.css" />
-  <script src="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/AccessPage.js"></script>
+  <link rel="stylesheet" href="http://localhost/JetVoyager/src/User_pages/Unregistered/registration.css" />
+  <script src="http://localhost/JetVoyager/src/User_pages/Unregistered/AccessPage.js"></script>
   <title>JetVoyager Registration</title>
 </head>
 
@@ -102,11 +102,11 @@ session_destroy();
         <button type="submit" class="submit-btn">Sign Up</button>
       </form>
       <p class="terms">By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
-      <p class="login-redirect">Already have an account? <a href="http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php">Log In</a></p>
+      <p class="login-redirect">Already have an account? <a href="http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php">Log In</a></p>
     </div>
 
     <div class="register-image-section">
-      <img src="http://localhost/JetVoyager/JetVoyager/images/3.png" alt="Travel">
+      <img src="http://localhost/JetVoyager/images/3.png" alt="Travel">
       <p>Embark on a seamless journey <br> with JetVoyager!</p>
     </div>
   </div>

@@ -4,7 +4,7 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user-email'])) {
-  header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
+  header('Location: http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php');
   exit();
 }
 

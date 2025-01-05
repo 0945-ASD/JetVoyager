@@ -4,7 +4,7 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['agent-email'])) {
-    header('Location: http://localhost/JetVoyager/JetVoyager/src/User_pages/Unregistered/Login.php');
+    header('Location: http://localhost/src/User_pages/Unregistered/Login.php');
     exit();
 }
 
@@ -75,7 +75,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetVoyager Agent Portal</title>
-    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Agent_pages/homePage.css">
+    <link rel="stylesheet" href="http://localhost/src/Agent_pages/homePage.css">
     <script src="scripts.js" defer></script>
 </head>
 
@@ -100,7 +100,7 @@ $conn->close();
                 <h1>Agent Portal</h1>
                 <div class="header-actions">
                     <!-- Inside the header-actions div -->
-                    <form action="http://localhost/JetVoyager/JetVoyager/src/logout.php" method="POST" style="display:inline;">
+                    <form action="http://localhost/JetVoyager/src/logout.php" method="POST" style="display:inline;">
                         <button type="submit" name="logout">Logout</button>
                     </form>
 
