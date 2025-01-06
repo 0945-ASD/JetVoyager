@@ -63,7 +63,7 @@ session_destroy();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetVoyager Admin Panel</title>
-    <link rel="stylesheet" href="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.css?v=1.0">
+    <link rel="stylesheet" href="http://localhost/JetVoyager/src/Admin_pages/homePage.css?v=1.0">
     <script src="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.js"></script>
 </head>
 

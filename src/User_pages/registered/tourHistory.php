@@ -15,7 +15,7 @@ $userPassword = $_SESSION['user-pswd'];
 // Use a relative path to include the config.php file
 include('../../config.php');
 
-session_destroy();
+
 
 ?>
 <!DOCTYPE html>
