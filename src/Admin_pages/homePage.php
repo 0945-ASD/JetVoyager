@@ -185,11 +185,8 @@ session_destroy();
             </div>
             <ul class="menu">
                 <li><a href="#dashboard">Dashboard</a></li>
-                <!-- <li><a href="#users">Manage Users</a></li> -->
                 <li><a href="#destination">Manage Destinations</a></li>
                 <li><a href="#bookings">Manage Recent Bookings</a></li>
-                <!-- <li><a href="#notifications">Notifications</a></li> -->
-                <!-- <li><a href="#reports">Reports</a></li> -->
                 <li><a href="#settings">Settings</a></li>
                 <li><a href="#support">Customer Support</a></li>
             </ul>
@@ -215,28 +212,6 @@ session_destroy();
                 </div>
             </section>
 
-
-            <!-- <section id="users" class="section">
-                <h2>Manage Users</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Jane Doe</td>
-                            <td>jane.doe@example.com</td>
-                            <td><button>Edit</button> <button>Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section> -->
             <section id="destination" class="section">
                 <h2>Manage Destinations</h2>
 
@@ -347,15 +322,6 @@ session_destroy();
                 </table>
             </section>
 
-            <!-- <section id="notifications" class="section">
-                <h2>Notifications</h2>
-                <button>Send New Notification</button>
-            </section> -->
-
-            <!-- <section id="reports" class="section">
-                <h2>Reports</h2>
-                <button>Generate Report</button>
-            </section> -->
 
             <section id="settings" class="section">
                 <h2>Settings</h2>
