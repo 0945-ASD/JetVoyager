@@ -7,7 +7,7 @@
 
 /* Body Styling */
 body {
-    background-image: url("http://localhost/JetVoyager/JetVoyager/images/image_4k.png");
+    background-image: url("http://localhost/JetVoyager/images/image_4k.png");
     background-size: cover;
     /* Ensures the image covers the entire page */
     background-repeat: no-repeat;

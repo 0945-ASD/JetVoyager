@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hotelDescription = $_POST['hotel_description'] ?? '';
     if (empty($hotelDescription)) {
         error_log("Hotel description is missing.");
-        exit("Error: Missing hotel description.");
+        // exit("Error: Missing hotel description.");
     }
 
     // File upload handling
