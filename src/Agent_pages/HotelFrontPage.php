@@ -8,16 +8,17 @@
 </head>
 <body>
     <header>
-        <h1>Hotel Name</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Rooms</a></li>
-                <li><a href="#">Amenities</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <a class="logo" href="http://localhost/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
+    <div class="navbar">
+      <ul class="nav-links">
+        <li><a href="http://localhost/JetVoyager/src/User_pages/registered/bookTours.php">Book Tours</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/registered/HotelView.php">View Hotels</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/registered/manageTours.php">Manage Tours</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/registered/tourHistory.php">Tour History</a></li>
+        <li><a href="http://localhost/JetVoyager/src/User_pages/registered/profile.php">Profile</a></li>
+      </ul>
+    </div>
+  </header>
     <main>
         <section id="hotel-description">
             <h2>About the Hotel</h2>

@@ -9,16 +9,84 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
+// Fetch destinations for list
+$query = "SELECT * FROM destination";
+$result = $conn->query($query);
+$destinations = [];
+if ($result && $result->num_rows > 0) {
+    $destinations = $result->fetch_all(MYSQLI_ASSOC);
+}
+
+// Fetch destination for editing
+$destinationDetails = null;
+if (isset($_GET['destination_id'])) {
+    $destination_id = intval($_GET['destination_id']);
+    $query = "SELECT * FROM destination WHERE Destination_ID = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $destination_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $destinationDetails = $result->fetch_assoc();
+}
+
+// Fetch messages
+$messages = [];
+$query = "SELECT id, name, email, message, status, created_at, phone FROM contact_form";
+$result = $conn->query($query);
+if ($result && $result->num_rows > 0) {
+    $messages = $result->fetch_all(MYSQLI_ASSOC);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $destination_id = isset($_POST['destination_id']) ? intval($_POST['destination_id']) : null;
+    $destination_name = $_POST['destination_name'];
+    $location = $_POST['location'];
+    $description = $_POST['description'];
+
+    if ($destination_id) {
+        $sql = "UPDATE destination SET Destination_name = ?, Location = ?, Destination_description = ? WHERE Destination_ID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
+
+        if ($stmt->execute()) {
+            echo "Destination updated successfully.";
+        } else {
+            echo "Error updating destination: " . $conn->error;
+        }
+    } else {
+        $sql = "INSERT INTO destination (Destination_name, Location, Destination_description) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sss", $destination_name, $location, $description);
+
+        if ($stmt->execute()) {
+            echo "Destination added successfully.";
+        } else {
+            echo "Error adding destination: " . $conn->error;
+        }
+    }
+
+    header('Location: homePage.php#destination');
+    exit;
+}
+
 // SQL query to fetch data
 $sql = "SELECT id, name, email, message, status, created_at, phone FROM contact_form";
 $result = $conn->query($sql);
+
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
 
 $messages = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $messages[] = $row;
     }
+} else {
+    error_log("No rows found in contact_form table.");
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
@@ -77,7 +145,7 @@ session_destroy();
             <ul class="menu">
                 <li><a href="#dashboard">Dashboard</a></li>
                 <!-- <li><a href="#users">Manage Users</a></li> -->
-                <li><a href="#tours">Manage Destinations</a></li>
+                <li><a href="#destination">Manage Destinations</a></li>
                 <li><a href="#bookings">Manage Recent Bookings</a></li>
                 <!-- <li><a href="#notifications">Notifications</a></li> -->
                 <!-- <li><a href="#reports">Reports</a></li> -->
@@ -126,15 +194,68 @@ session_destroy();
                     </tbody>
                 </table>
             </section> -->
+            <section id="destination" class="section">
+                <h2>Manage Destinations</h2>
 
-            <section id="tours" class="section">
-                <h2>Manage Tours</h2>
-                <button>Add New Tour</button>
-                <ul>
-                    <li>Tour 1: <button>Edit</button> <button>Delete</button></li>
-                    <li>Tour 2: <button>Edit</button> <button>Delete</button></li>
-                </ul>
+                <!-- Add New Destination Form -->
+                <div id="destination-form-section">
+                    <h3><?php echo isset($_GET['destination_id']) ? 'Edit Destination' : 'Add New Destination'; ?></h3>
+                    <form id="destination-form" method="POST" action="homePage.php">
+                        <input type="hidden" name="destination_id"
+                            value="<?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_ID']) : ''; ?>">
+                        <label for="destination-name">Destination Name:</label>
+                        <input type="text" id="destination-name" name="destination_name"
+                            value="<?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_name']) : ''; ?>" required>
+                        <label for="location">Location:</label><input type="text" id="location" name="location"
+                            value="<?php echo isset($destinationDetails['Location']) ? htmlspecialchars($destinationDetails['Location']) : ''; ?>" required>
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required><?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_description']) : ''; ?></textarea>
+                        <button type="submit" class="save-button">
+                            <?php echo isset($destinationDetails) ? 'Update Destination' : 'Add Destination'; ?>
+                        </button>
+                    </form>
+
+                </div>
+
+
+                <!-- List of Existing Destinations -->
+                <div class="existing-destinations">
+                    <h3>Existing Destinations</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Destination Name</th>
+                                <th>Location</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (!empty($destinations)) {
+                                foreach ($destinations as $destination) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($destination['Destination_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($destination['Destination_name']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($destination['Location']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($destination['Destination_description']) . "</td>";
+                                    echo "<td>";
+                                    echo "<button class='edit-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "'>Edit</button>";
+                                    echo "<button class='delete-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "'>Delete</button>";
+                                    echo "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='5'>No Destinations found</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </section>
+
+
 
             <section id="bookings" class="section">
                 <h2>Manage Bookings</h2>
