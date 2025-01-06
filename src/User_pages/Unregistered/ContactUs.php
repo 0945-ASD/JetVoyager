@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="email" name="email" placeholder="yourname@example.com" required>
             <br>
             <label for="phone">Phone Number:</label>
-            <input type="tel" name="phone" placeholder="+xx xxxxxxxxx" required>
+            <input type="tel" name="phone" placeholder="xxxxxxxxxx" required>
             <br>
             <label for="message">Your Message:</label>
             <textarea name="message" rows="5" required placeholder="Type your message here"></textarea>
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       var nameRegex = /^[a-zA-Z\s]+$/;
-      var phoneRegex = /^\+\d{2} \d{9}$/;
+      
 
       if (!emailRegex.test(email)) {
         alert("Please enter a valid email address.");
