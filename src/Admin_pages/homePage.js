@@ -118,3 +118,62 @@ document.getElementById('add-destination-form').addEventListener('submit', funct
     })
     .catch(error => console.error('Error adding destination:', error));
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const deleteButtons = document.querySelectorAll('.delete-destination');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const destinationId = button.getAttribute('data-id');
+
+            if (confirm('Are you sure you want to delete this destination?')) {
+                fetch('deleteDestination.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ destination_id: destinationId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Destination deleted successfully');
+                        location.reload();
+                    } else {
+                        alert('Failed to delete destination: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting destination:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const editButtons = document.querySelectorAll('.edit-destination');
+
+    // Open modal when Edit button is clicked
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const destinationId = button.getAttribute('data-id');
+            const destinationName = button.getAttribute('data-name');
+            const location = button.getAttribute('data-location');
+            const description = button.getAttribute('data-description');
+
+            // Populate modal with existing data
+            document.getElementById('destination_id').value = destinationId;
+            document.getElementById('destination-name').value = destinationName;
+            document.getElementById('location').value = location;
+            document.getElementById('description').value = description;
+
+            // Show modal
+            document.getElementById('edit-modal').style.display = 'block';
+        });
+    });
+});
+
+// Close modal
+function closeModal() {
+    document.getElementById('edit-modal').style.display = 'none';
+}

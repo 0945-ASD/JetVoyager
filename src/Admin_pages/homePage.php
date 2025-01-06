@@ -9,6 +9,25 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch total users
+$userCountQuery = "SELECT COUNT(*) AS total_users FROM r_user";
+$userCountResult = $conn->query($userCountQuery);
+$totalUsers = ($userCountResult && $userCountResult->num_rows > 0) ? $userCountResult->fetch_assoc()['total_users'] : 0;
+
+// Fetch total bookings
+$bookingCountQuery = "SELECT COUNT(*) AS total_bookings FROM booking";
+$bookingCountResult = $conn->query($bookingCountQuery);
+$totalBookings = ($bookingCountResult && $bookingCountResult->num_rows > 0) ? $bookingCountResult->fetch_assoc()['total_bookings'] : 0;
+
+// Fetch total hotels
+$hotelCountQuery = "SELECT COUNT(*) AS total_hotels FROM hotel_agent";
+$hotelCountResult = $conn->query($hotelCountQuery);
+$totalHotels = ($hotelCountResult && $hotelCountResult->num_rows > 0) ? $hotelCountResult->fetch_assoc()['total_hotels'] : 0;
+
+$destinationName = isset($destinationDetails['Destination_name']) ? $destinationDetails['Destination_name'] : '';
+$location = isset($destinationDetails['location']) ? $destinationDetails['location'] : '';
+$description = isset($destinationDetails['Destination_description']) ? $destinationDetails['Destination_description'] : '';
+
 
 // Fetch destinations for list
 $query = "SELECT * FROM destination";
@@ -30,6 +49,28 @@ if (isset($_GET['destination_id'])) {
     $destinationDetails = $result->fetch_assoc();
 }
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['destination_id'])) {
+    $destination_id = intval($_POST['destination_id']);
+    $destination_name = $_POST['destination_name'];
+    $location = $_POST['location'];
+    $description = $_POST['description'];
+
+    // Update query
+    $sql = "UPDATE destination SET Destination_name = ?, location = ?, Destination_description = ? WHERE Destination_ID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
+
+    if ($stmt->execute()) {
+        echo "Destination updated successfully.";
+    } else {
+        echo "Error updating destination: " . $conn->error;
+    }
+
+    header('Location: homePage.php#destination');
+    exit;
+}
+
 // Fetch messages
 $messages = [];
 $query = "SELECT id, name, email, message, status, created_at, phone FROM contact_form";
@@ -45,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
 
     if ($destination_id) {
-        $sql = "UPDATE destination SET Destination_name = ?, Location = ?, Destination_description = ? WHERE Destination_ID = ?";
+        $sql = "UPDATE destination SET Destination_name = ?, location = ?, Destination_description = ? WHERE Destination_ID = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
 
@@ -55,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Error updating destination: " . $conn->error;
         }
     } else {
-        $sql = "INSERT INTO destination (Destination_name, Location, Destination_description) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO destination (Destination_name, location, Destination_description) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $destination_name, $location, $description);
 
@@ -166,12 +207,14 @@ session_destroy();
             <section id="dashboard" class="section">
                 <h2>Dashboard</h2>
                 <div class="stats">
-                    <div class="stat">Total Users: 150</div>
-                    <div class="stat">Total Tours: 45</div>
-                    <div class="stat">Bookings Today: 12</div>
+                    <div class="stat">Total Users: <?php echo $totalUsers; ?></div>
+                    <div class="stat">Total Destinations: <?php echo count($destinations); ?></div>
+                    <div class="stat">Total Bookings: <?php echo $totalBookings; ?></div>
+                    <div class="stat">Total Hotels: <?php echo $totalHotels; ?></div>
                     <div class="stat">Revenue: $4500</div>
                 </div>
             </section>
+
 
             <!-- <section id="users" class="section">
                 <h2>Manage Users</h2>
@@ -207,7 +250,7 @@ session_destroy();
                         <input type="text" id="destination-name" name="destination_name"
                             value="<?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_name']) : ''; ?>" required>
                         <label for="location">Location:</label><input type="text" id="location" name="location"
-                            value="<?php echo isset($destinationDetails['Location']) ? htmlspecialchars($destinationDetails['Location']) : ''; ?>" required>
+                            value="<?php echo isset($destinationDetails['location']) ? htmlspecialchars($destinationDetails['location']) : ''; ?>" required>
                         <label for="description">Description:</label>
                         <textarea id="description" name="description" required><?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_description']) : ''; ?></textarea>
                         <button type="submit" class="save-button">
@@ -238,10 +281,13 @@ session_destroy();
                                     echo "<tr>";
                                     echo "<td>" . htmlspecialchars($destination['Destination_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($destination['Destination_name']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($destination['Location']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($destination['location']) . "</td>";
                                     echo "<td>" . htmlspecialchars($destination['Destination_description']) . "</td>";
                                     echo "<td>";
-                                    echo "<button class='edit-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "'>Edit</button>";
+                                    echo "<button class='edit-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "' 
+                    data-name='" . htmlspecialchars($destination['Destination_name']) . "'
+                    data-location='" . htmlspecialchars($destination['location']) . "'
+                    data-description='" . htmlspecialchars($destination['Destination_description']) . "'>Edit</button>";
                                     echo "<button class='delete-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "'>Delete</button>";
                                     echo "</td>";
                                     echo "</tr>";
@@ -251,8 +297,30 @@ session_destroy();
                             }
                             ?>
                         </tbody>
+
                     </table>
                 </div>
+
+                <div class="modal" id="edit-modal">
+                    <div class="modal-content">
+                        <h3>Edit Destination</h3>
+                        <form id="edit-destination-form" method="POST" action="homePage.php">
+                            <input type="hidden" name="destination_id" id="destination_id">
+                            <label for="destination-name">Destination Name:</label>
+                            <input type="text" id="destination-name" name="destination_name" value="<?php echo htmlspecialchars($destinationName); ?>" required>
+
+                            <label for="location">Location:</label>
+                            <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($location); ?>" required>
+
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" required><?php echo htmlspecialchars($description); ?></textarea>
+
+                            <button type="submit" class="save-button">Save</button>
+                            <button type="button" class="cancel-button" onclick="closeModal()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
             </section>
 
 

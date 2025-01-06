@@ -1,29 +1,33 @@
 <?php
-// Database connection
+// Start session and database connection
+session_start();
 $conn = new mysqli('localhost', 'root', '', 'jetvoyager_db');
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die(json_encode(['success' => false, 'message' => 'Database connection failed']));
 }
 
-// Get data from POST request
-$data = json_decode(file_get_contents("php://input"), true);
+// Retrieve and validate input
+$data = json_decode(file_get_contents('php://input'), true);
+if (!isset($data['destination_id'])) {
+    echo json_encode(['success' => false, 'message' => 'Destination ID is required']);
+    exit;
+}
 
-if (isset($data['id'])) {
-    $id = $conn->real_escape_string($data['id']);
+$destination_id = intval($data['destination_id']);
 
-    // Delete destination from database
-    $sql = "DELETE FROM destination WHERE Destination_ID = '$id'";
+// Delete query
+$query = "DELETE FROM destination WHERE Destination_ID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $destination_id);
 
-    if ($conn->query($sql) === TRUE) {
-        echo json_encode(['success' => true, 'message' => 'Destination deleted successfully']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to delete destination']);
-    }
+if ($stmt->execute()) {
+    echo json_encode(['success' => true, 'message' => 'Destination deleted successfully']);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Invalid input']);
+    echo json_encode(['success' => false, 'message' => 'Failed to delete destination']);
 }
 
+$stmt->close();
 $conn->close();
 ?>
