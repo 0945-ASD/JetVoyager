@@ -90,7 +90,8 @@ CREATE table contact_form (
     email varchar(255),
     message varchar(255),
     phone int,
-    status enum('pending','reviewed','resolved') default 'pending' 
+    status enum('pending','reviewed','resolved') default 'pending' ,
+    created_at timestamp default current_timestamp
 );
 
 CREATE table destination (

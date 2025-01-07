@@ -25,7 +25,7 @@ $hotelCountResult = $conn->query($hotelCountQuery);
 $totalHotels = ($hotelCountResult && $hotelCountResult->num_rows > 0) ? $hotelCountResult->fetch_assoc()['total_hotels'] : 0;
 
 $destinationName = isset($destinationDetails['Destination_name']) ? $destinationDetails['Destination_name'] : '';
-$location = isset($destinationDetails['location']) ? $destinationDetails['location'] : '';
+$Location = isset($destinationDetails['Location']) ? $destinationDetails['Location'] : '';
 $description = isset($destinationDetails['Destination_description']) ? $destinationDetails['Destination_description'] : '';
 
 
@@ -53,13 +53,13 @@ if (isset($_GET['destination_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['destination_id'])) {
     $destination_id = intval($_POST['destination_id']);
     $destination_name = $_POST['destination_name'];
-    $location = $_POST['location'];
+    $Location = $_POST['Location'];
     $description = $_POST['description'];
 
     // Update query
     $sql = "UPDATE destination SET Destination_name = ?, Location = ?, Destination_description = ? WHERE Destination_ID = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
+    $stmt->bind_param("sssi", $destination_name, $Location, $description, $destination_id);
 
     if ($stmt->execute()) {
         echo "Destination updated successfully.";
@@ -82,13 +82,13 @@ if ($result && $result->num_rows > 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $destination_id = isset($_POST['destination_id']) ? intval($_POST['destination_id']) : null;
     $destination_name = $_POST['destination_name'];
-    $location = $_POST['location'];
+    $Location = $_POST['Location'];
     $description = $_POST['description'];
 
     if ($destination_id) {
         $sql = "UPDATE destination SET Destination_name = ?, Location = ?, Destination_description = ? WHERE Destination_ID = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
+        $stmt->bind_param("sssi", $destination_name, $Location, $description, $destination_id);
 
         if ($stmt->execute()) {
             echo "Destination updated successfully.";
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $sql = "INSERT INTO destination (Destination_name, Location, Destination_description) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $destination_name, $location, $description);
+        $stmt->bind_param("sss", $destination_name, $Location, $description);
 
         if ($stmt->execute()) {
             echo "Destination added successfully.";
@@ -173,7 +173,7 @@ session_destroy();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetVoyager Admin Panel</title>
     <link rel="stylesheet" href="http://localhost/JetVoyager/src/Admin_pages/homePage.css?v=1.0">
-    <script src="http://localhost/JetVoyager/JetVoyager/src/Admin_pages/homePage.js"></script>
+    <script src="http://localhost/JetVoyager/src/Admin_pages/homePage.js"></script>
 </head>
 
 <body>
@@ -224,8 +224,8 @@ session_destroy();
                         <label for="destination-name">Destination Name:</label>
                         <input type="text" id="destination-name" name="destination_name"
                             value="<?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_name']) : ''; ?>" required>
-                        <label for="location">Location:</label><input type="text" id="location" name="location"
-                            value="<?php echo isset($destinationDetails['location']) ? htmlspecialchars($destinationDetails['location']) : ''; ?>" required>
+                        <label for="Location">Location:</label><input type="text" id="Location" name="Location"
+                            value="<?php echo isset($destinationDetails['Location']) ? htmlspecialchars($destinationDetails['Location']) : ''; ?>" required>
                         <label for="description">Description:</label>
                         <textarea id="description" name="description" required><?php echo isset($destinationDetails) ? htmlspecialchars($destinationDetails['Destination_description']) : ''; ?></textarea>
                         <button type="submit" class="save-button">
@@ -256,12 +256,12 @@ session_destroy();
                                     echo "<tr>";
                                     echo "<td>" . htmlspecialchars($destination['Destination_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($destination['Destination_name']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($destination['location']) . "</td>";
+                                    echo "<td><a href='https://maps.google.com?q=" . urlencode($destination['Location']) . "' target='_blank'>" . htmlspecialchars($destination['Location']) . "</a></td>";
                                     echo "<td>" . htmlspecialchars($destination['Destination_description']) . "</td>";
                                     echo "<td>";
                                     echo "<button class='edit-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "' 
                     data-name='" . htmlspecialchars($destination['Destination_name']) . "'
-                    data-location='" . htmlspecialchars($destination['location']) . "'
+                    data-Location='" . htmlspecialchars($destination['Location']) . "'
                     data-description='" . htmlspecialchars($destination['Destination_description']) . "'>Edit</button>";
                                     echo "<button class='delete-destination' data-id='" . htmlspecialchars($destination['Destination_ID']) . "'>Delete</button>";
                                     echo "</td>";
@@ -276,25 +276,29 @@ session_destroy();
                     </table>
                 </div>
 
-                <div class="modal" id="edit-modal">
+                <!-- Modal for Editing Destination -->
+                <div id="edit-modal" style="display: none;">
                     <div class="modal-content">
-                        <h3>Edit Destination</h3>
-                        <form id="edit-destination-form" method="POST" action="homePage.php">
-                            <input type="hidden" name="destination_id" id="destination_id">
-                            <label for="destination-name">Destination Name:</label>
-                            <input type="text" id="destination-name" name="destination_name" value="<?php echo htmlspecialchars($destinationName); ?>" required>
-
-                            <label for="location">Location:</label>
-                            <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($location); ?>" required>
-
-                            <label for="description">Description:</label>
-                            <textarea id="description" name="description" required><?php echo htmlspecialchars($description); ?></textarea>
-
-                            <button type="submit" class="save-button">Save</button>
-                            <button type="button" class="cancel-button" onclick="closeModal()">Cancel</button>
+                        <form id="edit-destination-form">
+                            <input type="hidden" id="destination_id" name="destination_id">
+                            <div>
+                                <label for="destination-name">Destination Name:</label>
+                                <input type="text" id="destination-name" name="destination_name" required>
+                            </div>
+                            <div>
+                                <label for="location">Location:</label>
+                                <input type="text" id="location" name="location" required>
+                            </div>
+                            <div>
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" required></textarea>
+                            </div>
+                            <button type="submit">Save Changes</button>
+                            <button type="button" id="close-modal">Cancel</button>
                         </form>
                     </div>
                 </div>
+
 
             </section>
 
