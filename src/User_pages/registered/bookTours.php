@@ -69,22 +69,38 @@ include('../../config.php');
     </footer>
 
     <script>
-        function showFeature(featureId) {
-            const sections = document.querySelectorAll('.feature-section');
-            sections.forEach(section => section.style.display = 'none');
-            document.getElementById(featureId).style.display = 'flex';
-        }
+    function confirmBooking() {
+        const tour = document.getElementById('tour').value;
+        const date = document.getElementById('date').value;
 
-        function confirmBooking() {
-            const tour = document.getElementById('tour').value;
-            const date = document.getElementById('date').value;
-            if (tour && date) {
-                alert(`Your tour to ${tour.charAt(0).toUpperCase() + tour.slice(1)} on ${date} has selected!`);
-            } else {
-                alert('Please select both a tour and a date to proceed.');
+        if (tour && date) {
+            let destination;
+            // Set the destination name based on the selected option
+            switch(tour) {
+                case 'paris':
+                    destination = 'Paris, France';
+                    break;
+                case 'kyoto':
+                    destination = 'Kyoto, Japan';
+                    break;
+                case 'new-york':
+                    destination = 'New York, USA';
+                    break;
+                case 'rome':
+                    destination = 'Rome, Italy';
+                    break;
+                default:
+                    destination = '';
             }
+
+            // Redirect to the hotel view page with the selected destination
+            window.location.href = `http://localhost/JetVoyager/src/User_pages/registered/HotelView.php?destination=${encodeURIComponent(destination)}&date=${date}`;
+        } else {
+            alert('Please select both a tour and a date to proceed.');
         }
-    </script>
+    }
+</script>
+
 
 </body>
 

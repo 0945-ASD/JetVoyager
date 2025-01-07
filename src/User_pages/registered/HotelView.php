@@ -7,12 +7,8 @@ if (!isset($_SESSION['user-email'])) {
     exit();
 }
 
-// Retrieve the session variables
-$userEmail = $_SESSION['user-email'];
-$userPassword = $_SESSION['user-pswd'];
-
-// Include the config.php file
-include('../../config.php');
+// Include the config.php file with the correct relative path
+include('../../config.php');  // Assuming config.php is two directories up from this file
 
 // Fetch all hotel details from the database
 $query = $conn->prepare("SELECT Hotel_ID, Hotel_name, Location, No_of_rooms, Hotel_phone, Hotel_email FROM hotel_agent");
@@ -27,20 +23,20 @@ if ($result->num_rows > 0) {
 } else {
     die("No hotels found.");
 }
+// Store the Hotel_ID in the session when the user clicks "View Details"
+$_SESSION['hotel_id'] = $hotel['Hotel_ID'];
 
 $query->close();
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JetVoyager - Hotel Booking</title>
-    <link
-        rel="stylesheet"
-        href="http://localhost/JetVoyager/src/User_pages/registered/homePage.css" />
+    <link rel="stylesheet" href="http://localhost/JetVoyager/src/User_pages/registered/homePage.css" />
     <style>
         .hotels {
             display: grid;
@@ -91,7 +87,6 @@ $conn->close();
         }
     </style>
 </head>
-
 <body>
     <header>
         <a class="logo" href="http://localhost/JetVoyager/src/User_pages/registered/homePage.php">JetVoyager</a>
@@ -117,17 +112,18 @@ $conn->close();
                         <p><strong>Number of Rooms:</strong> <?php echo htmlspecialchars($hotel['No_of_rooms']); ?></p>
                         <p><strong>Phone:</strong> <?php echo htmlspecialchars($hotel['Hotel_phone']); ?></p>
                         <p><strong>Email:</strong> <?php echo htmlspecialchars($hotel['Hotel_email']); ?></p>
-                        <a href="http://localhost/JetVoyager/src/User_pages/registered/viewHotelDetails.php?Hotel_ID=<?php echo $hotel['Hotel_ID']; ?>">View Details</a>
-                    </div>
+                        <!-- Add the "View Details" button that will redirect to HotelDetails.php -->
+                        <a href="HotelDetails.php?hotel_id=<?php echo $hotel['Hotel_ID']; ?>">View Details</a>
+                        </div>
                 <?php endforeach; ?>
             <?php else : ?>
                 <p>No hotels are currently available.</p>
             <?php endif; ?>
         </section>
     </main>
+
     <footer>
         © 2024 JetVoyager. All Rights Reserved.
     </footer>
 </body>
-
 </html>

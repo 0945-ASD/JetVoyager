@@ -3,8 +3,8 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user-email'])) {
-  header('Location: http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php');
-  exit();
+    header('Location: http://localhost/JetVoyager/src/User_pages/Unregistered/Login.php');
+    exit();
 }
 
 // Retrieve the session variables
@@ -46,14 +46,14 @@ $query->bind_param('ss', $userEmail, $userPassword);
 
 $userDetails = [];
 if ($query->execute()) {
-  $result = $query->get_result();
+    $result = $query->get_result();
 
-  if ($result->num_rows > 0) {
-    $userDetails = $result->fetch_assoc();
-  } else {
-    echo "Invalid login credentials!";
-    exit();
-  }
+    if ($result->num_rows > 0) {
+        $userDetails = $result->fetch_assoc();
+    } else {
+        echo "Invalid login credentials!";
+        exit();
+    }
 }
 
 $query->close();
@@ -87,11 +87,11 @@ $conn->close();
         <div id="profile" class="main-content">
             <h2>Your Profile</h2>
             <div class="profile-details">
-                <p><strong>Name:</strong> <span id="profile-name"><?php echo htmlspecialchars($userDetails['Name']); ?></span></p>
-                <p><strong>NIC:</strong> <span id="profile-NIC"><?php echo htmlspecialchars($userDetails['NIC']); ?></span></p>
-                <p><strong>Email:</strong> <span id="profile-email"><?php echo htmlspecialchars($userDetails['EMAIL']); ?></span></p>
-                <p><strong>Phone:</strong> <span id="profile-phone"><?php echo htmlspecialchars($userDetails['PhoneNum']); ?></span></p>
-                <p><strong>Password:</strong> <span id="profile-Password"><?php echo htmlspecialchars($userDetails['Password']); ?></span></p>
+                <p><strong>Name:</strong> <span id="profile-name"><?php echo htmlspecialchars($userDetails['Name'] ?? ''); ?></span></p>
+                <p><strong>NIC:</strong> <span id="profile-NIC"><?php echo htmlspecialchars($userDetails['NIC'] ?? ''); ?></span></p>
+                <p><strong>Email:</strong> <span id="profile-email"><?php echo htmlspecialchars($userDetails['EMAIL'] ?? ''); ?></span></p>
+                <p><strong>Phone:</strong> <span id="profile-phone"><?php echo htmlspecialchars($userDetails['PhoneNum'] ?? ''); ?></span></p>
+                <p><strong>Password:</strong> <span id="profile-Password"><?php echo htmlspecialchars($userDetails['Password'] ?? ''); ?></span></p>
 
                 <button class="edit-button" onclick="openModal()">Edit Profile</button>
             </div>

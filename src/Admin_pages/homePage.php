@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['destination_id'])) {
     $description = $_POST['description'];
 
     // Update query
-    $sql = "UPDATE destination SET Destination_name = ?, location = ?, Destination_description = ? WHERE Destination_ID = ?";
+    $sql = "UPDATE destination SET Destination_name = ?, Location = ?, Destination_description = ? WHERE Destination_ID = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
 
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
 
     if ($destination_id) {
-        $sql = "UPDATE destination SET Destination_name = ?, location = ?, Destination_description = ? WHERE Destination_ID = ?";
+        $sql = "UPDATE destination SET Destination_name = ?, Location = ?, Destination_description = ? WHERE Destination_ID = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssi", $destination_name, $location, $description, $destination_id);
 
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Error updating destination: " . $conn->error;
         }
     } else {
-        $sql = "INSERT INTO destination (Destination_name, location, Destination_description) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO destination (Destination_name, Location, Destination_description) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $destination_name, $location, $description);
 
