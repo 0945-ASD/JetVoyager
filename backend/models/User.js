@@ -29,10 +29,21 @@ const userSchema = new mongoose.Schema(
       enum: ['traveler', 'agent', 'admin'],
       default: 'traveler',
     },
+    // Approval Status (For Hotel Agents)
+    approvalStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'approved', // travelers and admins are approved instantly
+    },
     // Agent-Specific Fields (Hotel Details)
     hotelName: {
       type: String,
     },
+    thingsToDo: [
+      {
+        type: String,
+      }
+    ],
     location: {
       type: String,
     },
@@ -63,6 +74,15 @@ const userSchema = new mongoose.Schema(
         price: { type: Number, required: true },
         capacity: { type: Number, default: 2 },
         status: { type: String, enum: ['Available', 'Maintenance'], default: 'Available' },
+      },
+    ],
+    reviews: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        userName: { type: String, required: true },
+        reviewText: { type: String, required: true },
+        rating: { type: Number, required: true, min: 1, max: 5 },
+        createdAt: { type: Date, default: Date.now },
       },
     ],
   },

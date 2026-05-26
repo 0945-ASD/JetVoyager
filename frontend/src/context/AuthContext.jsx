@@ -87,6 +87,9 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
 
       if (data.success) {
+        if (data.role === 'agent') {
+          return data; // Return successfully without authenticating
+        }
         localStorage.setItem('token', data.token);
         // Load profile
         const meRes = await fetch('/api/auth/me', {

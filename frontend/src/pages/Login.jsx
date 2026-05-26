@@ -90,6 +90,26 @@ const Login = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
+            {/* Display Success Messages */}
+            {location.state?.message && (
+              <div className="success-alert" style={{
+                background: 'rgba(0, 240, 255, 0.08)',
+                border: '1px solid rgba(0, 240, 255, 0.25)',
+                color: 'var(--accent-cyan)',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                fontSize: '0.85rem',
+                lineHeight: '1.4'
+              }}>
+                <Building size={18} style={{ flexShrink: 0 }} />
+                <span>{location.state.message}</span>
+              </div>
+            )}
+
             {/* Display Errors */}
             {(validationError || error) && (
               <div className="error-alert">

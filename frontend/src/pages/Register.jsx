@@ -61,7 +61,14 @@ const Register = () => {
     };
 
     try {
-      await register(userData);
+      const res = await register(userData);
+      if (res && res.success && role === 'agent') {
+        navigate('/login', { 
+          state: { 
+            message: 'Your registration was successful! Your application is now pending review by the JetVoyager administration team. You will be able to log in once approved.' 
+          } 
+        });
+      }
     } catch (err) {
       // Handled in Context
     }

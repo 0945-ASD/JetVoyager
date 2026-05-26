@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { MapPin, Star, Calendar, Users, Building, ChevronRight, CheckCircle, AlertTriangle } from 'lucide-react';
+import { MapPin, Star, Calendar, Users, Building, ChevronRight, CheckCircle, AlertTriangle, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const HotelDetails = () => {
@@ -32,24 +32,36 @@ const HotelDetails = () => {
   const [bookingError, setBookingError] = useState('');
   const [bookingLoading, setBookingLoading] = useState(false);
 
+  // Review states
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewText, setReviewText] = useState('');
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState('');
+  const [reviewLoading, setReviewLoading] = useState(false);
+
   // Fetch hotel details
-  useEffect(() => {
-    const fetchHotel = async () => {
-      try {
-        const res = await fetch(`/api/auth/hotels/${id}`);
-        const data = await res.json();
-        if (data.success) {
-          setHotel(data.hotel);
-          if (data.hotel.roomTypes && data.hotel.roomTypes.length > 0) {
-            setSelectedRoom(data.hotel.roomTypes[0]);
-          }
+  const fetchHotel = async () => {
+    try {
+      const res = await fetch(`/api/auth/hotels/${id}`);
+      const data = await res.json();
+      if (data.success) {
+        setHotel(data.hotel);
+        // Retain selection or pick first
+        if (!selectedRoom && data.hotel.roomTypes && data.hotel.roomTypes.length > 0) {
+          setSelectedRoom(data.hotel.roomTypes[0]);
+        } else if (selectedRoom) {
+          const updatedRoom = data.hotel.roomTypes.find(r => r._id === selectedRoom._id);
+          if (updatedRoom) setSelectedRoom(updatedRoom);
         }
-      } catch (err) {
-        console.error('Error fetching hotel details:', err);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching hotel details:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchHotel();
   }, [id]);
 
@@ -76,7 +88,6 @@ const HotelDetails = () => {
     setBookingSuccess(false);
 
     if (!user) {
-      // Redirect to login
       navigate('/login', { state: { from: { pathname: `/hotels/${id}` } } });
       return;
     }
@@ -125,6 +136,54 @@ const HotelDetails = () => {
     }
   };
 
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setReviewError('');
+    setReviewSuccess('');
+
+    if (!user) {
+      setReviewError('You must be logged in to submit a review.');
+      return;
+    }
+
+    if (user.role !== 'traveler') {
+      setReviewError('Only traveler accounts can write hotel reviews.');
+      return;
+    }
+
+    if (!reviewText) {
+      setReviewError('Please write review text.');
+      return;
+    }
+
+    setReviewLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/auth/hotels/${id}/reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating: reviewRating, reviewText }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setReviewSuccess('Review published successfully!');
+        setReviewText('');
+        setReviewRating(5);
+        fetchHotel(); // Reload database
+      } else {
+        setReviewError(data.message || 'Failed to submit review.');
+      }
+    } catch (err) {
+      setReviewError('Failed to communicate with server.');
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', color: 'var(--accent-cyan)', padding: '100px 0' }}>
@@ -168,12 +227,58 @@ const HotelDetails = () => {
         </div>
       </div>
 
+      {/* Dynamic Resort Excursion perks section (Things to Do) */}
+      {hotel.thingsToDo && hotel.thingsToDo.length > 0 && (
+        <div className="resort-perks-section glass-panel" style={{ padding: '30px', marginBottom: '40px' }}>
+          <h3 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: '1.4rem',
+            color: 'var(--accent-gold)',
+            marginBottom: '15px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <Star size={18} style={{ fill: 'var(--accent-gold)', stroke: 'var(--accent-gold)' }} />
+            Exclusive Guest Experiences & Perks
+          </h3>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+            Elevate your stay with custom concierge-curated attractions, resort-exclusive excursions, and private tastings.
+          </p>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '15px'
+          }}>
+            {hotel.thingsToDo.map((perk, index) => (
+              <div key={index} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'rgba(255, 255, 255, 0.01)',
+                border: '1px solid var(--border-light)',
+                padding: '12px 18px',
+                borderRadius: '8px',
+                fontSize: '0.88rem',
+                color: 'var(--text-primary)',
+                transition: 'var(--transition-smooth)'
+              }}
+              className="perk-card animate-fade-in"
+              >
+                <CheckCircle size={15} style={{ color: 'var(--accent-cyan)', flexShrink: 0 }} />
+                <span>{perk}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="booking-room-layout">
-        {/* Left Side: Room Options list */}
+        {/* Left Side: Room Options list & Reviews */}
         <div className="rooms-section">
           <h3 className="sub-title">Select Accommodation Package</h3>
           
-          <div className="room-options-list">
+          <div className="room-options-list" style={{ marginBottom: '50px' }}>
             {hotel.roomTypes && hotel.roomTypes.length > 0 ? (
               hotel.roomTypes.map((room) => (
                 <div
@@ -206,6 +311,77 @@ const HotelDetails = () => {
               ))
             ) : (
               <p>No room packages currently offered by this hotel.</p>
+            )}
+          </div>
+
+          {/* REVIEWS LISTING */}
+          <div className="hotel-reviews-container">
+            <h3 className="sub-title" style={{ color: 'var(--accent-gold)' }}>Guest Reviews</h3>
+            
+            <div className="reviews-panel-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {hotel.reviews && hotel.reviews.length > 0 ? (
+                hotel.reviews.map((rev, index) => (
+                  <div key={index} className="review-chat-bubble glass-panel" style={{ padding: '20px' }}>
+                    <div className="bubble-head" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '8px' }}>
+                      <strong>{rev.userName}</strong>
+                      <div className="stars">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={12} style={{ fill: i < rev.rating ? 'var(--accent-gold)' : 'transparent', stroke: 'var(--accent-gold)' }} />
+                        ))}
+                      </div>
+                    </div>
+                    <p style={{ fontStyle: 'italic', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>"{rev.reviewText}"</p>
+                  </div>
+                ))
+              ) : (
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No guest reviews written for this property yet.</p>
+              )}
+            </div>
+
+            {/* Submit Review form */}
+            {user && user.role === 'traveler' ? (
+              <div className="submit-review-widget glass-panel" style={{ marginTop: '30px', padding: '25px' }}>
+                <h4 style={{ fontSize: '0.95rem', color: 'var(--text-primary)', marginBottom: '15px' }}>Write a Review</h4>
+                
+                {reviewError && <p style={{ color: 'var(--accent-rose)', fontSize: '0.8rem', marginBottom: '10px' }}>{reviewError}</p>}
+                {reviewSuccess && <p style={{ color: 'var(--accent-cyan)', fontSize: '0.8rem', marginBottom: '10px' }}>{reviewSuccess}</p>}
+
+                <form onSubmit={handleReviewSubmit}>
+                  <div className="form-group" style={{ marginBottom: '15px' }}>
+                    <label>Property Star Rating</label>
+                    <div style={{ display: 'flex', gap: '8px', cursor: 'pointer', marginTop: '5px' }}>
+                      {[1, 2, 3, 4, 5].map((val) => (
+                        <Star
+                          key={val}
+                          size={20}
+                          style={{ fill: val <= reviewRating ? 'var(--accent-gold)' : 'transparent', stroke: 'var(--accent-gold)' }}
+                          onClick={() => setReviewRating(val)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="form-group" style={{ marginBottom: '15px' }}>
+                    <label>Experience Details</label>
+                    <textarea
+                      rows="3"
+                      className="form-textarea"
+                      placeholder="Share your stay experience, staff friendliness, and room cleanliness..."
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="btn-primary" style={{ padding: '8px 18px', fontSize: '0.85rem' }} disabled={reviewLoading || reviewSuccess}>
+                    <Send size={14} /> Submit Review
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '25px', textAlign: 'center' }}>
+                *You must be registered as a traveler to write hotel reviews.
+              </p>
             )}
           </div>
         </div>
@@ -528,6 +704,13 @@ const HotelDetails = () => {
           align-items: center;
           gap: 8px;
           font-size: 0.8rem;
+        }
+
+        .perk-card:hover {
+          border-color: var(--accent-cyan) !important;
+          background: rgba(0, 240, 255, 0.02) !important;
+          box-shadow: 0 4px 15px rgba(0, 240, 255, 0.08);
+          transform: translateY(-1px);
         }
 
         @media (max-width: 900px) {

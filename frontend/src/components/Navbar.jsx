@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Plane, LogOut, User, Compass, Calendar, Building, HelpCircle, Mail, BarChart, Settings, Menu, X } from 'lucide-react';
+import { Plane, LogOut, User, Compass, Calendar, Building, HelpCircle, Mail, BarChart, Settings, Menu, X, Map } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -43,6 +43,9 @@ const Navbar = () => {
           </Link>
           <Link to="/hotels" className={`nav-item ${isActive('/hotels') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
             <Building size={18} /> View Hotels
+          </Link>
+          <Link to="/trips" className={`nav-item ${isActive('/trips') || isActive('/trips/create') || location.pathname.startsWith('/trips/') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
+            <Map size={18} /> Trip Planner
           </Link>
           <Link to="/manage-tours" className={`nav-item ${isActive('/manage-tours') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
             <Calendar size={18} /> Bookings

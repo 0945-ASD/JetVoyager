@@ -9,6 +9,7 @@ const AgentDashboard = () => {
   // Local state replicas
   const [description, setDescription] = useState(user?.description || '');
   const [imagesInput, setImagesInput] = useState(user?.images?.join(', ') || '');
+  const [thingsToDoInput, setThingsToDoInput] = useState(user?.thingsToDo?.join(', ') || '');
 
   // Room CRUD states
   const [roomTypes, setRoomTypes] = useState(user?.roomTypes || []);
@@ -51,13 +52,15 @@ const AgentDashboard = () => {
     setErrorMessage('');
     setSuccessMessage('');
 
-    // Format images
+    // Format images & things to do
     const imagesArr = imagesInput.split(',').map(s => s.trim()).filter(Boolean);
+    const thingsArr = thingsToDoInput.split(',').map(s => s.trim()).filter(Boolean);
 
     try {
       await updateProfile({
         description,
         images: imagesArr,
+        thingsToDo: thingsArr,
       });
       setSuccessMessage('Hotel details updated successfully!');
     } catch (err) {
@@ -205,6 +208,14 @@ const AgentDashboard = () => {
 
             <div className="metrics-grid">
               <div className="glass-panel metric-box">
+                <span className="lbl">Approval Status</span>
+                <span className="val" style={{ color: 'var(--accent-cyan)' }}>
+                  <span className="badge badge-confirmed" style={{ fontSize: '0.85rem', verticalAlign: 'middle', textTransform: 'uppercase' }}>
+                    {user.approvalStatus}
+                  </span>
+                </span>
+              </div>
+              <div className="glass-panel metric-box">
                 <span className="lbl">Total Capacities</span>
                 <span className="val">{user.noOfRooms} Suites</span>
               </div>
@@ -215,10 +226,6 @@ const AgentDashboard = () => {
               <div className="glass-panel metric-box">
                 <span className="lbl">Total Orders</span>
                 <span className="val">{orders.length} Reservations</span>
-              </div>
-              <div className="glass-panel metric-box">
-                <span className="lbl">Property Location</span>
-                <span className="val" style={{ fontSize: '1.25rem' }}>{user.location}</span>
               </div>
             </div>
           </div>
@@ -252,6 +259,17 @@ const AgentDashboard = () => {
                     placeholder="https://image1.jpg, https://image2.jpg"
                     value={imagesInput}
                     onChange={(e) => setImagesInput(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Perks & Attractions (Things to Do - Comma Separated)</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="e.g. Dior Spa Treatments, Private Excursions, Sunset Tastings"
+                    value={thingsToDoInput}
+                    onChange={(e) => setThingsToDoInput(e.target.value)}
                   />
                 </div>
 

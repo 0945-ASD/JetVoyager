@@ -19,6 +19,8 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import AdminDashboard from './pages/AdminDashboard';
 import AgentDashboard from './pages/AgentDashboard';
+import CreateTrip from './pages/CreateTrip';
+import TripPlanner from './pages/TripPlanner';
 
 function App() {
   return (
@@ -64,6 +66,22 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['traveler']}>
                   <ManageTours />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/trips"
+              element={
+                <ProtectedRoute allowedRoles={['traveler']}>
+                  <CreateTrip />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/trips/:id"
+              element={
+                <ProtectedRoute allowedRoles={['traveler']}>
+                  <TripPlanner />
                 </ProtectedRoute>
               }
             />

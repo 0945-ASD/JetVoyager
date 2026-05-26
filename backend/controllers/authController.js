@@ -35,6 +35,7 @@ export const registerUser = async (req, res) => {
       phone,
       nic,
       role: role || 'traveler',
+      approvalStatus: role === 'agent' ? 'pending' : 'approved',
       hotelName: role === 'agent' ? hotelName : undefined,
       location: role === 'agent' ? location : undefined,
       noOfRooms: role === 'agent' ? Number(noOfRooms) || 0 : undefined,
@@ -44,6 +45,14 @@ export const registerUser = async (req, res) => {
     });
 
     if (user) {
+      if (user.role === 'agent') {
+        return res.status(201).json({
+          success: true,
+          message: 'Registration successful! Your hotel application has been submitted and is pending review by the JetVoyager administration team. You will be able to log in once approved.',
+          role: 'agent',
+        });
+      }
+      
       res.status(201).json({
         success: true,
         _id: user._id,
@@ -74,6 +83,22 @@ export const loginUser = async (req, res) => {
       // Check if role matches (if supplied)
       if (role && user.role !== role) {
         return res.status(400).json({ success: false, message: `Access denied. Account is registered as ${user.role}.` });
+      }
+
+      // Hotel Agent approval check
+      if (user.role === 'agent') {
+        if (user.approvalStatus === 'pending') {
+          return res.status(403).json({
+            success: false,
+            message: 'Your hotel account is pending approval by the JetVoyager administration team. Access will be unlocked once approved.',
+          });
+        }
+        if (user.approvalStatus === 'rejected') {
+          return res.status(403).json({
+            success: false,
+            message: 'Your hotel agent application has been rejected by the JetVoyager administration team.',
+          });
+        }
       }
 
       res.json({
@@ -160,7 +185,7 @@ export const updateProfile = async (req, res) => {
 export const getHotels = async (req, res) => {
   const { location } = req.query;
   try {
-    let query = { role: 'agent' };
+    let query = { role: 'agent', approvalStatus: 'approved' };
     if (location) {
       query.location = { $regex: location, $options: 'i' };
     }
@@ -186,4 +211,129 @@ export const getHotelById = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Create hotel agent review
+// @route   POST /api/auth/hotels/:id/reviews
+// @access  Private
+export const createHotelReview = async (req, res) => {
+  const { rating, reviewText } = req.body;
+
+  try {
+    const hotel = await User.findOne({ _id: req.params.id, role: 'agent' });
+
+    if (hotel) {
+      // Check if user already reviewed
+      const alreadyReviewed = hotel.reviews.find(
+        (r) => r.user.toString() === req.user._id.toString()
+      );
+
+      if (alreadyReviewed) {
+        return res.status(400).json({ success: false, message: 'Hotel already reviewed by you' });
+      }
+
+      const review = {
+        user: req.user._id,
+        userName: req.user.name,
+        rating: Number(rating),
+        reviewText,
+      };
+
+      hotel.reviews.push(review);
+      
+      // Update average rating
+      const totalRating = hotel.reviews.reduce((sum, r) => sum + r.rating, 0);
+      hotel.rating = Math.round((totalRating / hotel.reviews.length) * 10) / 10;
+
+      await hotel.save();
+      res.status(201).json({ success: true, message: 'Review added successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Hotel not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Delete hotel agent profile
+// @route   DELETE /api/auth/hotels/:id
+// @access  Private/Admin
+export const deleteHotel = async (req, res) => {
+  try {
+    const hotel = await User.findOne({ _id: req.params.id, role: 'agent' });
+
+    if (hotel) {
+      await hotel.deleteOne();
+      res.json({ success: true, message: 'Hotel partner successfully suspended' });
+    } else {
+      res.status(404).json({ success: false, message: 'Hotel partner not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update hotel profile by Admin
+// @route   PUT /api/auth/hotels/:id/admin
+// @access  Private/Admin
+export const updateHotelByAdmin = async (req, res) => {
+  const { hotelName, location, noOfRooms, rating, description, features } = req.body;
+
+  try {
+    const hotel = await User.findOne({ _id: req.params.id, role: 'agent' });
+
+    if (hotel) {
+      hotel.hotelName = hotelName || hotel.hotelName;
+      hotel.location = location || hotel.location;
+      hotel.noOfRooms = noOfRooms !== undefined ? Number(noOfRooms) : hotel.noOfRooms;
+      hotel.rating = rating !== undefined ? Number(rating) : hotel.rating;
+      hotel.description = description || hotel.description;
+      if (features) hotel.features = features;
+
+      const updatedHotel = await hotel.save();
+      res.json({ success: true, hotel: updatedHotel });
+    } else {
+      res.status(404).json({ success: false, message: 'Hotel partner not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get all pending hotel agents
+// @route   GET /api/auth/admin/pending-hotels
+// @access  Private/Admin
+export const getPendingHotels = async (req, res) => {
+  try {
+    const pendingHotels = await User.find({ role: 'agent', approvalStatus: 'pending' }).select('-password');
+    res.json({ success: true, count: pendingHotels.length, hotels: pendingHotels });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Approve or Reject a hotel agent account
+// @route   PUT /api/auth/admin/hotels/:id/status
+// @access  Private/Admin
+export const updateHotelStatus = async (req, res) => {
+  const { status } = req.body;
+
+  if (!status || !['approved', 'rejected'].includes(status)) {
+    return res.status(400).json({ success: false, message: 'Invalid status supplied. Must be approved or rejected.' });
+  }
+
+  try {
+    const hotel = await User.findOne({ _id: req.params.id, role: 'agent' });
+
+    if (hotel) {
+      hotel.approvalStatus = status;
+      await hotel.save();
+      res.json({ success: true, message: `Hotel partner application has been ${status} successfully!`, hotel });
+    } else {
+      res.status(404).json({ success: false, message: 'Hotel partner not found.' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 

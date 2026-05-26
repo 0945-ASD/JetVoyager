@@ -1,35 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DestinationCard from '../components/DestinationCard';
-import { Search, MapPin, Calendar, Compass, Star, X } from 'lucide-react';
+import { Search, MapPin, Calendar, Compass, Star, X, MessageSquare, Send } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
+  const { user } = useAuth();
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [selectedDest, setSelectedDest] = useState(null);
   const [bookingDate, setBookingDate] = useState('');
+
+  // Destination review form states
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewText, setReviewText] = useState('');
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState('');
+  const [reviewLoading, setReviewLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const res = await fetch('/api/destinations');
-        const data = await res.json();
-        if (data.success) {
-          setDestinations(data.destinations);
+  const fetchDestinations = async () => {
+    try {
+      const res = await fetch('/api/destinations');
+      const data = await res.json();
+      if (data.success) {
+        setDestinations(data.destinations);
+        // If a destination is currently open in modal, update its state too
+        if (selectedDest) {
+          const updated = data.destinations.find(d => d._id === selectedDest._id);
+          if (updated) setSelectedDest(updated);
         }
-      } catch (err) {
-        console.error('Error fetching destinations:', err);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching destinations:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchDestinations();
   }, []);
 
   const handleCardClick = (destination) => {
     setSelectedDest(destination);
+    setReviewError('');
+    setReviewSuccess('');
+    setReviewText('');
+    setReviewRating(5);
     // Default next week date
     const nextWeek = new Date();
     nextWeek.setDate(nextWeek.getDate() + 7);
@@ -39,8 +59,55 @@ const Home = () => {
   const handleBookRedirect = () => {
     if (selectedDest) {
       setSelectedDest(null);
-      // Redirect traveler to hotel list page with location and date filter
       navigate(`/hotels?location=${encodeURIComponent(selectedDest.location)}&date=${bookingDate}`);
+    }
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setReviewError('');
+    setReviewSuccess('');
+
+    if (!user) {
+      setReviewError('You must be logged in to submit a review.');
+      return;
+    }
+
+    if (user.role !== 'traveler') {
+      setReviewError('Only traveler accounts can submit reviews.');
+      return;
+    }
+
+    if (!reviewText) {
+      setReviewError('Please write your experience text.');
+      return;
+    }
+
+    setReviewLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/destinations/${selectedDest._id}/reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating: reviewRating, reviewText }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setReviewSuccess('Your review has been published!');
+        setReviewText('');
+        setReviewRating(5);
+        fetchDestinations(); // Refresh database list
+      } else {
+        setReviewError(data.message || 'Failed to submit review.');
+      }
+    } catch (err) {
+      setReviewError('Network connection error.');
+    } finally {
+      setReviewLoading(false);
     }
   };
 
@@ -106,7 +173,7 @@ const Home = () => {
       {/* Destination Details and Booking Modal */}
       {selectedDest && (
         <div className="modal-overlay">
-          <div className="modal-card glass-panel animate-fade-in" style={{ maxWidth: '650px' }}>
+          <div className="modal-card glass-panel animate-fade-in" style={{ maxWidth: '700px', height: '90vh', overflowY: 'auto' }}>
             <button className="modal-close" onClick={() => setSelectedDest(null)}>
               <X size={20} />
             </button>
@@ -124,7 +191,7 @@ const Home = () => {
                   {selectedDest.reviews && selectedDest.reviews.length > 0
                     ? (selectedDest.reviews.reduce((sum, r) => sum + r.rating, 0) / selectedDest.reviews.length).toFixed(1)
                     : '4.8'
-                  } (Reviews)
+                  } ({selectedDest.reviews?.length || 0} reviews)
                 </span>
               </div>
 
@@ -134,7 +201,7 @@ const Home = () => {
 
               {/* Selection flow before booking accommodation */}
               <div className="modal-action-form">
-                <div className="form-group">
+                <div className="form-group" style={{ flex: 1 }}>
                   <label htmlFor="travel-date">Select Desired Travel Date</label>
                   <div style={{ position: 'relative' }}>
                     <Calendar size={18} style={{ position: 'absolute', left: '12px', top: '13px', color: 'var(--text-muted)' }} />
@@ -149,9 +216,86 @@ const Home = () => {
                   </div>
                 </div>
 
-                <button onClick={handleBookRedirect} className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                <button onClick={handleBookRedirect} className="btn-primary">
                   Look for Accommodation
                 </button>
+              </div>
+
+              <hr style={{ border: '0', borderTop: '1px solid var(--border-light)', margin: '25px 0' }} />
+
+              {/* REVIEWS SECTION */}
+              <div className="reviews-tab-section">
+                <h3 style={{ fontFamily: 'Playfair Display', fontSize: '1.25rem', marginBottom: '15px', color: 'var(--accent-gold)' }}>Traveler Experiences</h3>
+
+                {/* Review Lists */}
+                <div className="reviews-panel-list">
+                  {selectedDest.reviews && selectedDest.reviews.length > 0 ? (
+                    selectedDest.reviews.map((rev, index) => (
+                      <div key={index} className="review-chat-bubble glass-panel">
+                        <div className="bubble-head">
+                          <strong>{rev.userName}</strong>
+                          <div className="stars">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} style={{ fill: i < rev.rating ? 'var(--accent-gold)' : 'transparent', stroke: 'var(--accent-gold)' }} />
+                            ))}
+                          </div>
+                        </div>
+                        <p>"{rev.reviewText}"</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No reviews have been written for this destination yet.</p>
+                  )}
+                </div>
+
+                {/* Submit review form */}
+                {user && user.role === 'traveler' ? (
+                  <div className="submit-review-widget glass-panel" style={{ marginTop: '25px', padding: '20px' }}>
+                    <h4 style={{ fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '10px' }}>Share Your Experience</h4>
+                    
+                    {reviewError && <p style={{ color: 'var(--accent-rose)', fontSize: '0.8rem', marginBottom: '10px' }}>{reviewError}</p>}
+                    {reviewSuccess && <p style={{ color: 'var(--accent-cyan)', fontSize: '0.8rem', marginBottom: '10px' }}>{reviewSuccess}</p>}
+
+                    <form onSubmit={handleReviewSubmit}>
+                      <div className="form-group" style={{ marginBottom: '15px' }}>
+                        <label>Your Rating</label>
+                        <div className="stars-selectors" style={{ display: 'flex', gap: '8px', cursor: 'pointer', marginTop: '5px' }}>
+                          {[1, 2, 3, 4, 5].map((starVal) => (
+                            <Star
+                              key={starVal}
+                              size={20}
+                              style={{
+                                fill: starVal <= reviewRating ? 'var(--accent-gold)' : 'transparent',
+                                stroke: 'var(--accent-gold)',
+                              }}
+                              onClick={() => setReviewRating(starVal)}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: '15px' }}>
+                        <label>Review Description</label>
+                        <textarea
+                          rows="3"
+                          className="form-textarea"
+                          placeholder="Outline your thoughts and recommendation..."
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                          required
+                        />
+                      </div>
+
+                      <button type="submit" className="btn-primary" style={{ padding: '8px 18px', fontSize: '0.85rem' }} disabled={reviewLoading || reviewSuccess}>
+                        <Send size={14} /> Submit Experience
+                      </button>
+                    </form>
+                  </div>
+                ) : (
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '20px', textAlign: 'center' }}>
+                    *You must be registered as a traveler to submit destination reviews.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -270,6 +414,7 @@ const Home = () => {
           border-radius: 12px;
           overflow: hidden;
           margin-bottom: 20px;
+          flex-shrink: 0;
         }
 
         .modal-image-header img {
@@ -335,6 +480,31 @@ const Home = () => {
         .modal-action-form .form-group {
           flex: 1;
           margin-bottom: 0;
+        }
+
+        /* Review bubbles */
+        .reviews-panel-list {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .review-chat-bubble {
+          padding: 15px 20px;
+          border-radius: 12px;
+        }
+
+        .review-chat-bubble .bubble-head {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.85rem;
+          margin-bottom: 6px;
+        }
+
+        .review-chat-bubble p {
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+          font-style: italic;
         }
 
         @media (max-width: 600px) {

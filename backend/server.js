@@ -5,13 +5,14 @@ import connectDB from './config/db.js';
 
 // Route Imports
 import authRoutes from './routes/authRoutes.js';
-import destinationRoutes from './routes/destinationRoutes.js';
+import activityRoutes from './routes/activityRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import tripRoutes from './routes/tripRoutes.js';
 
 // Model Imports for Stats API
 import User from './models/User.js';
-import Destination from './models/Destination.js';
+import Activity from './models/Activity.js';
 import Booking from './models/Booking.js';
 import { protect, admin } from './middleware/authMiddleware.js';
 
@@ -34,9 +35,10 @@ app.get('/', (req, res) => {
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/destinations', destinationRoutes);
+app.use('/api/activities', activityRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/trips', tripRoutes);
 
 // @desc    Get dashboard metrics for Admin Panel
 // @route   GET /api/admin/stats
@@ -45,7 +47,7 @@ app.get('/api/admin/stats', protect, admin, async (req, res) => {
   try {
     const totalUsers = await User.countDocuments({ role: 'traveler' });
     const totalHotels = await User.countDocuments({ role: 'agent' });
-    const totalDestinations = await Destination.countDocuments({});
+    const totalDestinations = await Activity.countDocuments({});
     const totalBookings = await Booking.countDocuments({});
 
     // Calculate total revenue from confirmed bookings
